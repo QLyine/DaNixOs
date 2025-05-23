@@ -1,6 +1,11 @@
-{ inputs, config, pkgs, system, ... }:
+{ config, pkgs, system, inputs, ... }:
 
 {
+  imports = [
+    inputs.nvf.homeManagerModules.default
+    ./common/neovim
+  ];
+
   home.username = "qlyine";
   home.homeDirectory = "/home/qlyine";
 
@@ -22,9 +27,18 @@
     inputs.zen-browser.packages."${system}".default
   ];
 
-  imports = [
-    ./common/neovim
-  ];
+  programs.bat = {
+    enable = true;
+    config = {
+      map-syntax = [
+        "*.jenkinsfile:Groovy"
+        "*.props:Java Properties"
+      ];
+      pager = "less -FR";
+      theme = "TwoDark";
+    };
+  };
 
   home.stateVersion = "24.11";
 }
+

@@ -33,18 +33,11 @@
             home-manager.useUserPackages = true;
             home-manager.useGlobalPkgs = true;
             home-manager.users.${username} = import ./home-manager/${username}.nix;
+            home-manager.extraSpecialArgs = {
+              inherit pkgs system inputs;
+            };
           }
         ];
-      };
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [
-          nvf.homeManagerModules.default
-          ./home-manager/${username}.nix
-        ];
-        extraSpecialArgs = {
-          inherit system inputs;
-        };
       };
     };
 }
