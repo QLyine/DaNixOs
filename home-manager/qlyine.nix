@@ -10,6 +10,10 @@
   home.homeDirectory = "/home/qlyine";
 
   programs = {
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
     zoxide = {
       enable = true;
       enableZshIntegration = true;
