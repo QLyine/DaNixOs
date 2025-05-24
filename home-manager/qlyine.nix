@@ -10,6 +10,15 @@
   home.homeDirectory = "/home/qlyine";
 
   programs = {
+    zellij = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    eza = {
+      enable = true;
+      icons = "auto";
+      enableZshIntegration = true;
+    };
     starship = {
       enable = true;
       enableZshIntegration = true;
@@ -25,6 +34,13 @@
       enable = true;
       enableAutosuggestions = true;
       syntaxHighlighting.enable = true;
+      shellAliases = {
+        "ls" = "eza";
+        "ll" = "eza -l";
+        "l" = "eza -l";
+        "la" = "eza -la";
+        "tree" = "eza --tree";
+      };
     };
     zsh.oh-my-zsh = {
       enable = true;
@@ -50,7 +66,6 @@
     inputs.zen-browser.packages."${system}".default
     code-cursor
     direnv
-    zellij
   ];
 
   programs.bat = {
