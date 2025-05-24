@@ -1,16 +1,17 @@
-{ config, pkgs, system, inputs, ... }:
+{ config, pkgs, system, inputs, hostname, ... }:
 
 {
   imports = [
     inputs.nvf.homeManagerModules.default
     ./common/neovim
-  ];
+  ] ++ (if hostname == "obelix" then [ ./hyprland.nix ] else [ ]);
 
   home.username = "qlyine";
   home.homeDirectory = "/home/qlyine";
 
   programs = {
     zsh.enable = true;
+    zsh.oh-my-zsh.enable = true;
     git = {
       enable = true;
       userName = "qlyine";

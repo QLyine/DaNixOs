@@ -15,29 +15,38 @@
   outputs = { self, nixpkgs, home-manager, nvf, zen-browser, ... }@inputs:
     let
       system = "x86_64-linux";
-      hostname = "obelix";     # ← your actual hostname
-      username = "qlyine";     # ← your actual user
+      username = "qlyine";
 
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
+
+      # Helper function to get the current hostname
+      currentHostname = host: host.config.networking.hostName;
+
     in {
-      nixosConfigurations.${hostname} = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          nvf.nixosModules.default 
-          ./hosts/${hostname}/configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useUserPackages = true;
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.${username} = import ./home-manager/${username}.nix;
-            home-manager.extraSpecialArgs = {
-              inherit pkgs system inputs;
-            };
-          }
-        ];
+      nixosConfigurations = nixpkgs.lib.mapAttrs (hostname: nxSys:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            ./hosts/${hostname}/configuration.nix # Assumes you have per-host configs here
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useUserPackages = true;
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.${username} = import ./home-manager/${username}.nix;
+              home-manager.extraSpecialArgs = { # Pass hostname to home-manager modules
+                inherit pkgs system inputs username hostname;
+              };
+            }
+          ];
+        }
+      ) {
+        # Define your hosts here
+        "obelix" = { }; # Example for host "obelix"
+        # "another-host" = { }; # Example for another host
+        # The key (e.g., "obelix") will be the hostname
       };
     };
 }
