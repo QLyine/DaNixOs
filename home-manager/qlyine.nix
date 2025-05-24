@@ -10,8 +10,26 @@
   home.homeDirectory = "/home/qlyine";
 
   programs = {
-    zsh.enable = true;
-    zsh.oh-my-zsh.enable = true;
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [
+        "--no-cmd"
+      ];
+    };
+    zsh = {
+      enable = true;
+      enableAutosuggestions = true;
+      syntaxHighlighting.enable = true;
+    };
+    zsh.oh-my-zsh = {
+      enable = true;
+      plugins = [ 
+        "git" 
+        "sudo" 
+      ];
+      theme = "robbyrussell";
+    };
     git = {
       enable = true;
       userName = "qlyine";
