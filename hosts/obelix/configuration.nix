@@ -116,6 +116,7 @@
     dive
     podman-tui
     podman-compose
+    git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

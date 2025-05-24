@@ -25,6 +25,9 @@
     fd
     unzip
     inputs.zen-browser.packages."${system}".default
+    code-cursor
+    direnv
+    zellij
   ];
 
   programs.bat = {
