@@ -140,6 +140,8 @@
   system.stateVersion = "24.11";
 
   hardware.graphics.enable = true;
+  hardware.nvidia.modesetting.enable = true;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
 
