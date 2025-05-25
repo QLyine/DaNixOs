@@ -43,8 +43,8 @@
     bind = [
       "$MOD, RETURN, exec, kitty"
       "$MOD, Q, killactive,"
-      "$MOD, D, exec, wofi --show run"
-      "$MOD, SHIFT, D, exec, wofi --show drun"
+      "$MOD, D, exec, wofi"
+      "$MOD SHIFT, D, exec, wofi --show drun"
 
       # Vim-like window focus
       "$MOD, H, movefocus, l"
@@ -53,16 +53,16 @@
       "$MOD, L, movefocus, r"
 
       # Vim-like window movement
-      "$MOD, SHIFT, H, movewindow, l"
-      "$MOD, SHIFT, J, movewindow, d"
-      "$MOD, SHIFT, K, movewindow, u"
-      "$MOD, SHIFT, L, movewindow, r"
+      "$MOD SHIFT, H, movewindow, l"
+      "$MOD SHIFT, J, movewindow, d"
+      "$MOD SHIFT, K, movewindow, u"
+      "$MOD SHIFT, L, movewindow, r"
 
       # Vim-like window resizing
-      "$MOD, CONTROL, H, resizeactive, -20 0"
-      "$MOD, CONTROL, J, resizeactive, 0 20"
-      "$MOD, CONTROL, K, resizeactive, 0 -20"
-      "$MOD, CONTROL, L, resizeactive, 20 0"
+      "$MOD CONTROL, H, resizeactive, -20 0"
+      "$MOD CONTROL, J, resizeactive, 0 20"
+      "$MOD CONTROL, K, resizeactive, 0 -20"
+      "$MOD CONTROL, L, resizeactive, 20 0"
 
       # Switch workspaces 1-8
       "$MOD, 1, workspace, 1"
@@ -75,34 +75,34 @@
       "$MOD, 8, workspace, 8"
 
       # Switch to workspaces 9-16
-      "$MOD, SHIFT, 1, workspace, 9"
-      "$MOD, SHIFT, 2, workspace, 10"
-      "$MOD, SHIFT, 3, workspace, 11"
-      "$MOD, SHIFT, 4, workspace, 12"
-      "$MOD, SHIFT, 5, workspace, 13"
-      "$MOD, SHIFT, 6, workspace, 14"
-      "$MOD, SHIFT, 7, workspace, 15"
-      "$MOD, SHIFT, 8, workspace, 16"
+      "$MOD SHIFT, 1, workspace, 9"
+      "$MOD SHIFT, 2, workspace, 10"
+      "$MOD SHIFT, 3, workspace, 11"
+      "$MOD SHIFT, 4, workspace, 12"
+      "$MOD SHIFT, 5, workspace, 13"
+      "$MOD SHIFT, 6, workspace, 14"
+      "$MOD SHIFT, 7, workspace, 15"
+      "$MOD SHIFT, 8, workspace, 16"
 
       # Move active window to a workspace 1-8
-      "$MOD, ALT, 1, movetoworkspace, 1"
-      "$MOD, ALT, 2, movetoworkspace, 2"
-      "$MOD, ALT, 3, movetoworkspace, 3"
-      "$MOD, ALT, 4, movetoworkspace, 4"
-      "$MOD, ALT, 5, movetoworkspace, 5"
-      "$MOD, ALT, 6, movetoworkspace, 6"
-      "$MOD, ALT, 7, movetoworkspace, 7"
-      "$MOD, ALT, 8, movetoworkspace, 8"
+      "$MOD ALT, 1, movetoworkspace, 1"
+      "$MOD ALT, 2, movetoworkspace, 2"
+      "$MOD ALT, 3, movetoworkspace, 3"
+      "$MOD ALT, 4, movetoworkspace, 4"
+      "$MOD ALT, 5, movetoworkspace, 5"
+      "$MOD ALT, 6, movetoworkspace, 6"
+      "$MOD ALT, 7, movetoworkspace, 7"
+      "$MOD ALT, 8, movetoworkspace, 8"
 
       # Move active window to workspaces 9-16
-      "$MOD, ALT, SHIFT, 1, movetoworkspace, 9"
-      "$MOD, ALT, SHIFT, 2, movetoworkspace, 10"
-      "$MOD, ALT, SHIFT, 3, movetoworkspace, 11"
-      "$MOD, ALT, SHIFT, 4, movetoworkspace, 12"
-      "$MOD, ALT, SHIFT, 5, movetoworkspace, 13"
-      "$MOD, ALT, SHIFT, 6, movetoworkspace, 14"
-      "$MOD, ALT, SHIFT, 7, movetoworkspace, 15"
-      "$MOD, ALT, SHIFT, 8, movetoworkspace, 16"
+      "$MOD ALT SHIFT, 1, movetoworkspace, 9"
+      "$MOD ALT SHIFT, 2, movetoworkspace, 10"
+      "$MOD ALT SHIFT, 3, movetoworkspace, 11"
+      "$MOD ALT SHIFT, 4, movetoworkspace, 12"
+      "$MOD ALT SHIFT, 5, movetoworkspace, 13"
+      "$MOD ALT SHIFT, 6, movetoworkspace, 14"
+      "$MOD ALT SHIFT, 7, movetoworkspace, 15"
+      "$MOD ALT SHIFT, 8, movetoworkspace, 16"
     ];
 
     workspace = [
@@ -125,7 +125,7 @@
     ];
 
     windowrulev2 = [
-      "workspace 2:Web, class:^(zen-browser)$"
+      "workspace 2:Web, class:^(zen-beta)$"
       "workspace 2:Web, title:^(Zen Browser)$" # Fallback if class doesn't match
     ];
   };
