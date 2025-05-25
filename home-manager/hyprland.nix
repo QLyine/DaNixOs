@@ -43,7 +43,7 @@
     bind = [
       "$MOD, RETURN, exec, kitty"
       "$MOD, Q, killactive,"
-      "$MOD, D, exec, wofi"
+      "$MOD, D, exec, wofi --show run"
 
       # Vim-like window focus
       "$MOD, H, movefocus, l"
