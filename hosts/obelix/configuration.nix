@@ -145,5 +145,16 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      keep-outputs = true;
+      keep-derivations = true;
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly"; # or "daily", as needed
+      options = "--delete-older-than 5d";
+    };
+  };
 }
