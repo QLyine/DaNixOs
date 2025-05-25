@@ -66,6 +66,7 @@
     inputs.zen-browser.packages."${system}".default
     code-cursor
     direnv
+    uv
   ];
 
   programs.bat = {
