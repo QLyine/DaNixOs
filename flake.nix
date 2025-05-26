@@ -15,10 +15,18 @@
   outputs = { self, nixpkgs, home-manager, nvf, zen-browser, ... }@inputs:
     let
       system = "x86_64-linux";
-      username = "qlyine";
+      username = "qlyine"; # Assuming this is for Linux
 
       pkgs = import nixpkgs {
         inherit system;
+        config.allowUnfree = true;
+      };
+
+      # Variables for macOS Home Manager
+      darwinSystem = "aarch64-darwin"; # Or "x86_64-darwin" for Intel Macs
+      darwinUsername = "dso17";
+      pkgsDarwin = import nixpkgs {
+        system = darwinSystem;
         config.allowUnfree = true;
       };
 
@@ -47,6 +55,22 @@
         "obelix" = { }; # Example for host "obelix"
         # "another-host" = { }; # Example for another host
         # The key (e.g., "obelix") will be the hostname
+      };
+
+      # Home Manager configuration for standalone macOS
+      homeConfigurations."${darwinUsername}" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgsDarwin; # Use pkgs for the Darwin system
+        extraSpecialArgs = {
+          inherit inputs;
+          username = darwinUsername;
+          # You can add hostname here if needed by your configs, e.g.:
+          # hostname = "your-mac-hostname"; 
+        };
+        modules = [
+          ./home-manager/${darwinUsername}-macos.nix
+          # You can add common home-manager modules here if you have them
+          # e.g., ./home-manager/common/some-common-settings.nix
+        ];
       };
     };
 }
