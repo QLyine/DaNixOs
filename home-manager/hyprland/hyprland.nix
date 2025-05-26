@@ -87,6 +87,44 @@
         "$MOD ALT SHIFT, 8, movetoworkspace, 16"
       ];
 
+      decoration = {
+        rounding = 10;
+
+        blur = {
+          size = 8;
+          passes = 2;
+        };
+
+        shadow = {
+          enabled = true;
+          range = 15;
+          render_power = 3;
+          offset = "0, 0";
+        };
+
+        active_opacity = 0.8;
+        inactive_opacity = 0.7;
+        fullscreen_opacity = 0.8;
+      };
+
+      layerrule = [
+        "blur, logout_dialog"
+      ];
+
+      animations = {
+        enabled = true;
+
+        bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+
+        animation = [
+          "windows, 1, 2, myBezier"
+          "windowsOut, 1, 2, default, popin 80%"
+          "border, 1, 3, default"
+          "fade, 1, 2, default"
+          "workspaces, 1, 1, default"
+        ];
+      };
+
       workspace = [
         "1, monitor:DP-5, name:1:main"
         "2, monitor:DP-5, name:2:Web"
