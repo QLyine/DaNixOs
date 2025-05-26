@@ -157,4 +157,11 @@
       options = "--delete-older-than 5d";
     };
   };
+
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      jetbrains-mono
+    ];
+  };
 }
