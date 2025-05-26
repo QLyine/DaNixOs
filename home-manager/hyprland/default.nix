@@ -4,6 +4,7 @@
   imports = [
     ./hyprland.nix
     ./wofi.nix
+    ./waybar.nix
   ];
 
   # Example: Essential packages for a Hyprland setup
