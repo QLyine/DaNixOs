@@ -4,7 +4,8 @@
   programs.waybar = {
     enable = true;
     settings = {
-      mainBar = {
+      "top_bar" = {
+        "name" = "top_bar";
         "layer" = "top";
         "position" = "top";
         "modules-left" = ["hyprland/workspaces"];
