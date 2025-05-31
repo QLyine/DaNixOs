@@ -25,6 +25,11 @@
         "la" = "eza -la";
         "tree" = "eza --tree";
       };
+      sessionVariables = {
+        EDITOR = "vim";
+        TERM = "xterm-256color";
+        SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+      };
     };
     zsh.oh-my-zsh = {
       enable = true;

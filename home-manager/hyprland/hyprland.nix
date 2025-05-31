@@ -15,6 +15,7 @@
       exec-once = [
         "waybar"
         "hyprpaper"
+        "eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)"
       ];
       input = {
         kb_layout = "pt";
@@ -102,9 +103,9 @@
           offset = "0, 0";
         };
 
-        active_opacity = 0.8;
+        active_opacity = 0.9;
         inactive_opacity = 0.7;
-        fullscreen_opacity = 0.8;
+        fullscreen_opacity = 0.9;
       };
 
       layerrule = [
@@ -127,7 +128,7 @@
 
       workspace = [
         "1, monitor:DP-5, name:1:main"
-        "2, monitor:DP-5, name:2:Web"
+        "2, monitor:DP-5, name:2:web"
         "3, monitor:DP-5, name:3:code"
         "4, monitor:DP-5"
         "5, monitor:DP-5"
@@ -145,8 +146,8 @@
       ];
 
       windowrulev2 = [
-        "workspace 2:Web, class:^(zen-beta)$"
-        "workspace 2:Web, title:^(Zen Browser)$" # Fallback if class doesn't match
+        "workspace 2, class:^(zen-beta)$"
+        "workspace 3, class:^(Cursor)$"
       ];
     };
   };

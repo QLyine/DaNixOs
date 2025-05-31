@@ -125,7 +125,14 @@
     podman-tui
     podman-compose
     git
+    gnome-keyring
   ];
+    
+  services.gnome.gnome-keyring.enable = true;
+
+  # Ensure PAM integration for unlocking keyring on login
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  security.pam.services.login.enableGnomeKeyring = true;
 
   programs.mtr.enable = true;
   programs.gnupg.agent = {
