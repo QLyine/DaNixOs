@@ -88,6 +88,11 @@
         "$MOD ALT SHIFT, 8, movetoworkspace, 16"
       ];
 
+      env = [
+        "HYPRCURSOR_THEME,MyCursor"
+        "HYPRCURSOR_SIZE,24"
+      ];
+
       decoration = {
         rounding = 10;
 
