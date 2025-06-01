@@ -51,7 +51,7 @@
   programs.ghostty = {
     enable = true;
     settings = {
-      font = "JetBrainsMono Nerd Font";
+      font-family = "JetBrainsMono Nerd Font";
       font-size = 12;
       theme = "OneHalfDark";
     };

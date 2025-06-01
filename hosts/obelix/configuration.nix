@@ -14,6 +14,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.loader.timeout = 10;
+
   networking.hostName = "obelix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -126,6 +128,7 @@
     podman-compose
     git
     gnome-keyring
+    efibootmgr
   ];
     
   services.gnome.gnome-keyring.enable = true;
