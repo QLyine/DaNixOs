@@ -6,6 +6,7 @@
     inputs.zen-browser.packages."${system}".default
     code-cursor
     capitaine-cursors
+    inter
   ];
 
   home.pointerCursor = {

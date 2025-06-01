@@ -153,6 +153,7 @@
       windowrulev2 = [
         "workspace 2, class:^(zen-beta)$"
         "workspace 3, class:^(Cursor)$"
+        "workspace special:scratchpad silent, class:^(ghostty)$, title:^(scratchpad)$"
       ];
     };
   };
