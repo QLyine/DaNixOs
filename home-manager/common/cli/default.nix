@@ -67,5 +67,8 @@
     unzip
     direnv
     uv
+    bitwarden-cli
+    jq
+    yq
   ];
 } 

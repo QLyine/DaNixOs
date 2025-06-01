@@ -13,6 +13,7 @@
     code-cursor
     capitaine-cursors
     inter
+    wl-clipboard
   ];
 
   home.pointerCursor = {
