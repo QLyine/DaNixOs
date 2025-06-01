@@ -14,6 +14,7 @@
     capitaine-cursors
     inter
     wl-clipboard
+    ungoogled-chromium
   ];
 
   home.pointerCursor = {

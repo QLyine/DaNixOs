@@ -70,5 +70,6 @@
     bitwarden-cli
     jq
     yq
+    dnsutils
   ];
 } 
