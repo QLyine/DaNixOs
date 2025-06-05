@@ -15,6 +15,7 @@
     inter
     wl-clipboard
     ungoogled-chromium
+    obsidian
   ];
 
   home.pointerCursor = {
