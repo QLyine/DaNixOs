@@ -21,8 +21,8 @@
     };
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
       syntaxHighlighting.enable = true;
+      autosuggestion.enable = true;
       shellAliases = {
         "ls" = "eza";
         "ll" = "eza -l";
@@ -35,6 +35,13 @@
         EDITOR = "vim";
         TERM = "xterm-256color";
       };
+      zplug = {
+        enable = true;
+        plugins = [
+          { name = "tj/git-extras"; }
+          { name = "hlissner/zsh-autopair";}
+        ];
+      };
     };
     zsh.oh-my-zsh = {
       enable = true;
@@ -45,6 +52,7 @@
         "history"
         "gradle"
         "kubectl"
+        "git-extras"
       ];
       theme = "robbyrussell";
     };
@@ -79,6 +87,7 @@
     fd
     fzf
     git
+    git-extras
     htop
     jq
     yq

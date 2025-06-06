@@ -35,4 +35,7 @@
     # XDG_CONFIG_HOME = "${config.home.homeDirectory}/.config"; # Already default
   };
 
+  home.packages = with pkgs; [
+    home-manager
+  ];
 } 
