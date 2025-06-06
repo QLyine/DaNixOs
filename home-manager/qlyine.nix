@@ -2,7 +2,6 @@
 
 {
   imports = [
-    inputs.nvf.homeManagerModules.default
     ./common/neovim
     ./common/cli
   ] ++ (if hostname == "obelix" then [

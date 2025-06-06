@@ -52,6 +52,7 @@
         "git"
         "sudo"
         "docker"
+        "podman"
         "history"
         "gradle"
         "kubectl"

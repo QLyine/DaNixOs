@@ -6,13 +6,14 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
-    nvf = {
-      url = "github:notashelf/nvf";
+    nixvim = {
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
   };
 
-  outputs = { self, nixpkgs, home-manager, nvf, zen-browser, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nixvim, zen-browser, ... }@inputs:
     let
       system = "x86_64-linux";
       username = "qlyine"; # Assuming this is for Linux
@@ -47,6 +48,9 @@
               home-manager.extraSpecialArgs = { # Pass hostname to home-manager modules
                 inherit pkgs system inputs username hostname;
               };
+              home-manager.sharedModules = [
+                nixvim.homeManagerModules.nixvim
+              ];
             }
           ];
         }
@@ -70,6 +74,9 @@
           ./home-manager/${darwinUsername}-macos.nix
           # You can add common home-manager modules here if you have them
           # e.g., ./home-manager/common/some-common-settings.nix
+        ];
+        sharedModules = [
+          nixvim.homeManagerModules.nixvim
         ];
       };
     };

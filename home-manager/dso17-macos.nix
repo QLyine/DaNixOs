@@ -11,7 +11,6 @@
   home.stateVersion = "25.05"; # Set to your current Nixpkgs version or a preferred starting point
 
   imports = [
-    inputs.nvf.homeManagerModules.default
     ./common/cli
     ./common/neovim
   ];

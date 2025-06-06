@@ -1,17 +1,21 @@
 { pkgs, input, system, ...}:
 {
-  programs.nvf = {
+  imports = [
+    ./opts.nix
+    ./plugins
+  ];
+
+  programs.nixvim = {
     enable = true;
-    # your settings need to go into the settings attribute set
-    # most settings are documented in the appendix
-    settings = {
-      vim.viAlias = false;
-      vim.vimAlias = true;
-      vim.lsp = {
-        enable = true;
-      };
-      vim.languages.nix.enable = true;
-    };
+    luaLoader.enable = true;
+    clipboard = pkgs.lib.mkMerge [
+      (pkgs.lib.mkIf pkgs.stdenv.isLinux {
+        providers.wl-copy.enable = true;
+      })
+      (pkgs.lib.mkIf pkgs.stdenv.isDarwin {
+        providers.pbcopy.enable = true;
+      })
+    ];
   };
 }
 

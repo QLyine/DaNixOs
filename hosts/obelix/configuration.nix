@@ -178,4 +178,6 @@
       jetbrains-mono
     ];
   };
+
+  services.fstrim.enable = true;
 }
