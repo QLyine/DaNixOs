@@ -13,7 +13,7 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, nixvim, zen-browser, ... }@inputs:
+  outputs = { nixpkgs, home-manager, nixvim, ... }@inputs:
     let
       system = "x86_64-linux";
       username = "qlyine"; # Assuming this is for Linux
@@ -30,9 +30,6 @@
         system = darwinSystem;
         config.allowUnfree = true;
       };
-
-      # Helper function to get the current hostname
-      currentHostname = host: host.config.networking.hostName;
 
     in {
       nixosConfigurations = nixpkgs.lib.mapAttrs (hostname: nxSys:

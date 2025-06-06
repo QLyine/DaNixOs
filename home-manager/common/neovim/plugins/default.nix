@@ -6,5 +6,6 @@
     ./telescope.nix
     ./lsp.nix
     ./treesiter.nix
+    ./trouble.nix
   ];
 }
