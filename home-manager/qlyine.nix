@@ -16,18 +16,7 @@
   programs = {
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
-      syntaxHighlighting.enable = true;
-      shellAliases = {
-        "ls" = "eza";
-        "ll" = "eza -l";
-        "l" = "eza -l";
-        "la" = "eza -la";
-        "tree" = "eza --tree";
-      };
       sessionVariables = {
-        EDITOR = "vim";
-        TERM = "xterm-256color";
         SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
       };
     };
@@ -44,15 +33,10 @@
       userName = "qlyine";
       userEmail = "dffsantos@proton.me";
     };
-    direnv = {
-      enable = true;
-      enableZshIntegration = true;
-      nix-direnv.enable = true;
-    };
   };
 
   home.packages = with pkgs; [
-    git
+    bitwarden-cli
   ];
 
   home.stateVersion = "24.11";

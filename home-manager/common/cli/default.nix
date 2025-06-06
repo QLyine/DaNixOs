@@ -18,9 +18,6 @@
     zoxide = {
       enable = true;
       enableZshIntegration = true;
-      options = [
-        "--no-cmd"
-      ];
     };
     zsh = {
       enable = true;
@@ -32,6 +29,11 @@
         "l" = "eza -l";
         "la" = "eza -la";
         "tree" = "eza --tree";
+        "grcm" = "git reset --hard HEAD ; (git checkout master || git checkout main) ; git fetch --all ; git pull ; (git reset --hard origin/master || git reset --hard origin/main)";
+      };
+      sessionVariables = {
+        EDITOR = "vim";
+        TERM = "xterm-256color";
       };
     };
     zsh.oh-my-zsh = {
@@ -39,13 +41,12 @@
       plugins = [
         "git"
         "sudo"
+        "docker"
+        "history"
+        "gradle"
+        "kubectl"
       ];
       theme = "robbyrussell";
-    };
-    git = {
-      enable = true;
-      userName = "qlyine";
-      userEmail = "dffsantos@proton.me";
     };
     bat = {
       enable = true;
@@ -58,18 +59,32 @@
         theme = "TwoDark";
       };
     };
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
   };
 
+  home.sessionPath = [
+    "$HOME/bin"
+    # GOLang Paths
+    "$HOME/go"
+    "$HOME/go/bin"
+  ];
+
   home.packages = with pkgs; [
-    htop
-    ripgrep
+    bat
+    eza
     fd
-    unzip
-    direnv
-    uv
-    bitwarden-cli
+    fzf
+    git
+    htop
     jq
     yq
+    ripgrep
+    tmux
+    starship
     dnsutils
   ];
 } 
