@@ -26,8 +26,8 @@
       };
 
       general = {
-        gaps_in = 5;
-        gaps_out = 10;
+        gaps_in = 4;
+        gaps_out = 8;
 
         border_size = 2;
 
@@ -42,6 +42,7 @@
       dwindle = {
         pseudotile = true;
         preserve_split = true;
+        smart_resizing = true;
       };
 
       master = {
@@ -62,8 +63,14 @@
         "$MOD SHIFT, D, exec, wofi --show drun"
         "$MOD, B, exec, ${browser}"
 
-        # Fullscreen
+        # Compositor Commands
         "$MOD, F, fullscreen"
+        "$MOD, P, pseudo"
+        "$MOD, S, togglesplit"
+        "$MOD, Space, togglefloating"
+        "$MOD, C, centerwindow"
+        "$MOD SHIFT, P, pin"
+
 
         # Expo
         "$MOD, Tab, hyprexpo:expo, toggle"
