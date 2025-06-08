@@ -12,9 +12,9 @@
     ./plugins/treesitter.nix
     ./plugins/telescope.nix
     ./plugins/neotree.nix
-    #./plugins/autopairs.nix
-    #./plugins/trouble.nix
-    #./plugins/neoclip.nix
+    ./plugins/autopairs.nix
+    ./plugins/trouble.nix
+    ./plugins/neoclip.nix
     
     ## UI enhancements
     #./ui/lualine.nix
