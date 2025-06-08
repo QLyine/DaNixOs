@@ -16,11 +16,6 @@
       
       ui-select = {
         enable = true;
-        settings = {
-          specific_opts = {
-            codeactions = true;
-          };
-        };
       };
       
       file-browser = {

@@ -11,7 +11,7 @@
           "<leader>k" = "goto_prev";
           "<leader>j" = "goto_next";
           "<leader>e" = "open_float";
-          "<leader>q" = "setloclist";
+          "<leader>el" = "setloclist";
         };
         
         lspBuf = {
@@ -200,15 +200,8 @@
     
     lspsaga = {
       enable = true;
-        ui = {
-          border = "rounded";
-          codeAction = "💡";
-        };
         hover = {
           maxWidth = 0.6;
-        };
-        codeAction = {
-          extendGitSigns = true;
         };
         outline = {
           winWidth = 30;

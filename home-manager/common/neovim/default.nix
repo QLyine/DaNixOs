@@ -40,6 +40,12 @@
 
   programs.nixvim = {
     enable = true;
+
+    plugins = {
+      which-key = {
+        enable = true;
+      };
+    };
     
     # Enable Lua loader for faster startup
     luaLoader.enable = true;

@@ -3,30 +3,30 @@
     # Nix-specific configuration
     plugins = {
       # Enhanced Nix support
-      vim-nix = {
+      nix = {
         enable = true;
       };
     };
-    
+
     # Nix file type settings
     filetype = {
       extension = {
         nix = "nix";
       };
     };
-    
+
     # Nix-specific autocommands
-    autoCommands = [
+    autoCmd = [
       {
-        event = ["FileType"];
-        pattern = ["nix"];
+        event = [ "FileType" ];
+        pattern = [ "nix" ];
         callback.__raw = ''
           function()
             vim.opt_local.tabstop = 2
             vim.opt_local.shiftwidth = 2
             vim.opt_local.expandtab = true
             vim.opt_local.commentstring = "# %s"
-            
+
             -- Nix-specific keymaps
             local opts = { buffer = true, silent = true }
             vim.keymap.set("n", "<leader>nf", ":!nixpkgs-fmt %<CR>", opts)
@@ -36,7 +36,7 @@
         '';
       }
     ];
-    
+
     # Nix snippets and abbreviations
     userCommands = {
       NixFlakeInit = {
@@ -62,5 +62,3 @@
     };
   };
 }
-
-

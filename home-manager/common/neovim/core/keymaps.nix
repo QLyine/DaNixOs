@@ -13,6 +13,7 @@
     normal = [
       # Leader key shortcuts
       (mkKeymap "n" "<leader>w" ":w<CR>" "Save file")
+      (mkKeymap "n" "<leader>wq" ":wq<CR>" "Save and quit")
       (mkKeymap "n" "<leader>q" ":q<CR>" "Quit")
       (mkKeymap "n" "<leader>Q" ":qa!<CR>" "Force quit all")
       (mkKeymap "n" "<C-s>" ":w<CR>" "Save file")
