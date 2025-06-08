@@ -103,5 +103,7 @@
     dnsutils
     kubectx
     claude-code
+    nixd
+    nixpkgs-fmt
   ];
 } 

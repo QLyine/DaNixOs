@@ -14,7 +14,6 @@
     capitaine-cursors
     inter
     wl-clipboard
-    ungoogled-chromium
     obsidian
   ];
 

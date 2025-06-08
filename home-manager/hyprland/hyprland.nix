@@ -5,6 +5,10 @@
     enable = true;
     package = pkgs.hyprland;
 
+    plugins = with pkgs.hyprlandPlugins; [
+      hyprexpo
+    ];
+
     xwayland.enable = true;
     settings = {
       monitor = [
@@ -21,13 +25,48 @@
         kb_layout = "pt";
       };
 
+      general = {
+        gaps_in = 5;
+        gaps_out = 10;
+
+        border_size = 2;
+
+        resize_on_border = true;
+
+        # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
+        allow_tearing = false;
+
+        layout = "dwindle";
+      };
+
+      dwindle = {
+        pseudotile = true;
+        preserve_split = true;
+      };
+
+      master = {
+        new_status = "master";
+      };
+
       "$MOD" = "SUPER";
 
-      bind = [
+      bind = let
+        defaultApp = type: "${pkgs.gtk3}/bin/gtk-launch $(${pkgs.xdg-utils}/bin/xdg-mime query default ${type})"; 
+        browser = defaultApp "x-scheme-handler/https";
+      in
+      [
+        # Applications
         "$MOD, RETURN, exec, ghostty"
         "$MOD, Q, killactive,"
         "$MOD, D, exec, wofi"
         "$MOD SHIFT, D, exec, wofi --show drun"
+        "$MOD, B, exec, ${browser}"
+
+        # Fullscreen
+        "$MOD, F, fullscreen"
+
+        # Expo
+        "$MOD, Tab, hyprexpo:expo, toggle"
 
         # Vim-like window focus
         "$MOD, H, movefocus, l"
@@ -109,7 +148,7 @@
         };
 
         active_opacity = 0.9;
-        inactive_opacity = 0.7;
+        inactive_opacity = 0.8;
         fullscreen_opacity = 0.9;
       };
 
@@ -155,6 +194,18 @@
         "workspace 3, class:^(Cursor)$"
         "workspace special:scratchpad silent, class:^(ghostty)$, title:^(scratchpad)$"
       ];
+
+      plugin = {
+        hyprexpo = {
+          columns = 3;
+          gap_size = 4;
+          bg_col = "rgb(0,0,0)";
+          enable_gesture = true;
+          gesture_fingers = 3;
+          gesture_distance = 300;
+          gesture_positive = false;
+        };
+      };
     };
   };
 
