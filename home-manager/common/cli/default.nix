@@ -105,5 +105,6 @@
     claude-code
     nixd
     nixpkgs-fmt
+    unzip
   ];
 } 

@@ -7,5 +7,6 @@
     ./lsp.nix
     ./treesiter.nix
     ./trouble.nix
+    ./neoclip.nix
   ];
 }

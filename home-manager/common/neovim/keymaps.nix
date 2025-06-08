@@ -22,6 +22,9 @@
           # fix Y behaviour
           Y = "y$";
 
+          # paste from clipboard
+          "<leader>p" = ":Telescope neoclip \"<CR>";
+
           # back and fourth between the two most recent files
           "<C-c>" = ":b#<CR>";
 
