@@ -17,21 +17,21 @@
     ./plugins/neoclip.nix
     
     ## UI enhancements
-    #./ui/lualine.nix
-    #./ui/colorscheme.nix
-    #./ui/bufferline.nix
-    #./ui/indent-blankline.nix
-    #./ui/noice.nix
+    ./ui/lualine.nix
+    ./ui/colorscheme.nix
+    ./ui/bufferline.nix
+    ./ui/indent-blankline.nix
+    ./ui/noice.nix
     
     ## Development tools
-    #./tools/git.nix
-    #./tools/formatting.nix
-    #./tools/debugging.nix
-    #./tools/terminal.nix
+    ./tools/git.nix
+    ./tools/formatting.nix
+    ./tools/debugging.nix
+    ./tools/terminal.nix
     #./tools/project-management.nix
     
     ## Language-specific configurations
-    #./languages/nix.nix
+    ./languages/nix.nix
     #./languages/web.nix
     #./languages/python.nix
     #./languages/rust.nix
