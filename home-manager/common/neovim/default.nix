@@ -25,10 +25,10 @@
     
     ## Development tools
     ./tools/git.nix
-    ./tools/formatting.nix
-    #./tools/debugging.nix
-    #./tools/terminal.nix
-    ##./tools/project-management.nix
+    #./tools/formatting.nix
+    ./tools/debugging.nix
+    ./tools/terminal.nix
+    #./tools/project-management.nix
     
     ## Language-specific configurations
     ./languages/nix.nix
