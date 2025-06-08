@@ -31,6 +31,7 @@
         "tree" = "eza --tree";
         "grcm" = "git reset --hard HEAD ; (git checkout master || git checkout main) ; git fetch --all ; git pull ; (git reset --hard origin/master || git reset --hard origin/main)";
         "v" = "nvim";
+        "vim" = "nvim";
       };
       sessionVariables = {
         EDITOR = "vim";
@@ -101,5 +102,6 @@
     starship
     dnsutils
     kubectx
+    claude-code
   ];
 } 
