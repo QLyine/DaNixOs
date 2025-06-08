@@ -104,19 +104,6 @@
           # Git
           gitlint.enable = true;
         };
-        
-        code_actions = {
-          # Git
-          gitsigns.enable = true;
-          
-          # Refactoring
-          refactoring.enable = true;
-        };
-        
-        completion = {
-          # Spell
-          spell.enable = true;
-        };
       };
     };
   };

@@ -16,7 +16,7 @@
     ./plugins/trouble.nix
     ./plugins/neoclip.nix
     
-    ## UI enhancements
+    ### UI enhancements
     ./ui/lualine.nix
     ./ui/colorscheme.nix
     ./ui/bufferline.nix
@@ -26,15 +26,14 @@
     ## Development tools
     ./tools/git.nix
     ./tools/formatting.nix
-    ./tools/debugging.nix
-    ./tools/terminal.nix
-    #./tools/project-management.nix
+    #./tools/debugging.nix
+    #./tools/terminal.nix
+    ##./tools/project-management.nix
     
     ## Language-specific configurations
     ./languages/nix.nix
-    #./languages/web.nix
-    #./languages/python.nix
-    #./languages/rust.nix
+    ./languages/python.nix
+    ./languages/rust.nix
     #./languages/go.nix
   ];
 
