@@ -1,6 +1,10 @@
 { config, pkgs, system, inputs, ... }:
 
 {
+  imports = [
+    ./atuin.nix
+  ];
+
   programs = {
     zellij = {
       enable = true;
@@ -41,10 +45,10 @@
         enable = true;
         plugins = [
           { name = "tj/git-extras"; }
-          { name = "hlissner/zsh-autopair";}
-          { name = "spwhitt/nix-zsh-completions";}
-          { name = "Aloxaf/fzf-tab";}
-          { name = "bonnefoa/kubectl-fzf";}
+          { name = "hlissner/zsh-autopair"; }
+          { name = "spwhitt/nix-zsh-completions"; }
+          { name = "Aloxaf/fzf-tab"; }
+          { name = "bonnefoa/kubectl-fzf"; }
         ];
       };
     };
@@ -107,4 +111,4 @@
     nixpkgs-fmt
     unzip
   ];
-} 
+}

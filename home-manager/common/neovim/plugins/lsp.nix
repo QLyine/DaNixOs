@@ -3,17 +3,17 @@
     # LSP configuration
     lsp = {
       enable = true;
-      
+
       # Keymaps
       keymaps = {
         silent = true;
         diagnostic = {
           "<leader>k" = "goto_prev";
           "<leader>j" = "goto_next";
-          "<leader>e" = "open_float";
+          "<leader>ef" = "open_float";
           "<leader>el" = "setloclist";
         };
-        
+
         lspBuf = {
           "gd" = "definition";
           "gD" = "declaration";
@@ -26,7 +26,7 @@
           "<leader>f" = "format";
         };
       };
-      
+
       # Language servers
       servers = {
         # Nix
@@ -34,7 +34,7 @@
           enable = true;
           settings = {
             formatting = {
-              command = ["nixpkgs-fmt"];
+              command = [ "nixpkgs-fmt" ];
             };
             nix = {
               maxMemoryMB = 2560;
@@ -45,11 +45,11 @@
             };
           };
         };
-        
+
         # TypeScript/JavaScript
         ts_ls = {
           enable = true;
-          filetypes = ["javascript" "javascriptreact" "typescript" "typescriptreact"];
+          filetypes = [ "javascript" "javascriptreact" "typescript" "typescriptreact" ];
           settings = {
             typescript = {
               inlayHints = {
@@ -75,12 +75,12 @@
             };
           };
         };
-        
+
         # HTML/CSS/JSON
         html.enable = true;
         cssls.enable = true;
         jsonls.enable = true;
-        
+
         # Python
         pylsp = {
           enable = true;
@@ -88,7 +88,7 @@
             pylsp = {
               plugins = {
                 pycodestyle = {
-                  ignore = ["W391"];
+                  ignore = [ "W391" ];
                   maxLineLength = 100;
                 };
                 flake8 = {
@@ -112,7 +112,7 @@
             };
           };
         };
-        
+
         # Rust
         rust_analyzer = {
           enable = true;
@@ -127,19 +127,19 @@
             check = {
               features = "all";
               command = "clippy";
-              extraArgs = ["--no-deps"];
+              extraArgs = [ "--no-deps" ];
             };
             procMacro = {
               enable = true;
               ignored = {
-                async-trait = ["async_trait"];
-                napi-derive = ["napi"];
-                async-recursion = ["async_recursion"];
+                async-trait = [ "async_trait" ];
+                napi-derive = [ "napi" ];
+                async-recursion = [ "async_recursion" ];
               };
             };
           };
         };
-        
+
         # Go
         gopls = {
           enable = true;
@@ -153,7 +153,7 @@
             };
           };
         };
-        
+
         # Lua
         lua_ls = {
           enable = true;
@@ -163,7 +163,7 @@
                 version = "LuaJIT";
               };
               diagnostics = {
-                globals = ["vim"];
+                globals = [ "vim" ];
               };
               workspace = {
                 checkThirdParty = false;
@@ -174,44 +174,44 @@
             };
           };
         };
-        
+
         # Bash
         bashls.enable = true;
-        
+
         # YAML
         yamlls.enable = true;
-        
+
         # Docker
         dockerls.enable = true;
-        
+
         # Markdown
         marksman.enable = true;
       };
     };
-    
+
     # LSP-related plugins
     lsp-format = {
       enable = true;
     };
-    
+
     lsp-lines = {
       enable = true;
     };
-    
+
     lspsaga = {
       enable = true;
-        hover = {
-          maxWidth = 0.6;
+      hover = {
+        maxWidth = 0.6;
+      };
+      outline = {
+        winWidth = 30;
+        keys = {
+          jump = "o";
+          quit = "q";
         };
-        outline = {
-          winWidth = 30;
-          keys = {
-            jump = "o";
-            quit = "q";
-          };
-        };
+      };
     };
-    
+
     # Inlay hints
     lsp-signature = {
       enable = true;
@@ -223,7 +223,7 @@
       };
     };
   };
-  
+
   # Diagnostic configuration
   programs.nixvim.diagnostics = {
     virtual_text = {
