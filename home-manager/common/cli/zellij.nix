@@ -7,7 +7,7 @@
     enableZshIntegration = true;
 
     settings = {
-      default_layout = "compact";
+      show_startup_tips = false;
       pane_frames = false;
       copy_on_select = true;
       attach_to_session = true;

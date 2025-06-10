@@ -4,7 +4,7 @@
 
   home.sessionVariables = {
     GDK_SCALE = "1";
-    GDK_DPI_SCALE = "1.2";  # Slight boost in scale
+    GDK_DPI_SCALE = "1.2"; # Slight boost in scale
   };
 
   home.packages = with pkgs; [
@@ -40,7 +40,7 @@
     };
   };
 
-    # Set fonts globally for applications (useful for Waybar, terminals, etc.)
+  # Set fonts globally for applications (useful for Waybar, terminals, etc.)
   xresources.properties = {
     "Xft.dpi" = 110;
     "Xft.antialias" = true;
@@ -59,4 +59,4 @@
     };
     enableZshIntegration = true;
   };
-} 
+}

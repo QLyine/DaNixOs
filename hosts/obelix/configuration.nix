@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -94,7 +95,7 @@
   virtualisation.podman = {
     enable = true;
     dockerCompat = true;
-    defaultNetwork.settings.dns_enabled = true;  
+    defaultNetwork.settings.dns_enabled = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -106,7 +107,7 @@
     description = "Daniel Santos";
     extraGroups = [ "networkmanager" "wheel" "podman" ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -134,7 +135,7 @@
     gnome-keyring
     efibootmgr
   ];
-    
+
   services.gnome.gnome-keyring.enable = true;
 
   # Ensure PAM integration for unlocking keyring on login
@@ -176,6 +177,26 @@
     enableDefaultPackages = true;
     packages = with pkgs; [
       jetbrains-mono
+      # General-purpose fonts
+      noto-fonts
+      dejavu_fonts
+      liberation_ttf
+
+      # Extended Unicode coverage
+      noto-fonts-cjk-sans # Chinese, Japanese, Korean
+      noto-fonts-emoji # Emoji
+      noto-fonts-extra # Additional Unicode blocks
+      unifont # Covers nearly all of Unicode (bitmap fallback)
+
+      # Terminal and developer fonts
+      powerline-fonts
+      nerd-fonts.fira-code
+      nerd-fonts.ubuntu
+      nerd-fonts.hack
+
+      # Symbols and special characters
+      font-awesome
+      symbola
     ];
   };
 

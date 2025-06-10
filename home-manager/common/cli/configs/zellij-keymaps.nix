@@ -22,19 +22,30 @@ mkAllKeybinds {
 
   "shared_except \"tmux\" \"locked\" \"entersearch\"" = {
     "Alt f" = { SwitchToMode = "EnterSearch"; };
+    "Alt 1" = {
+      GoToTab = 0;
+    };
+    "Alt 2" = {
+      GoToTab = 1;
+    };
   };
 
   entersearch = {
     "Ctrl c" = { SwitchToMode = "Normal"; };
-    "Enter" = { SwitchToMode = "Search"; };
+    "Enter" = {
+      SwitchToMode = "Search";
+      SearchToggleOption = "CaseSensitivity";
+    };
   };
 
   search = {
     "Esc" = { SwitchToMode = "Normal"; };
     "n" = { Search = "down"; };
     "N" = { Search = "up"; };
-    #"Enter" = { Search = "confirm"; };
     "e" = { "EditScrollback; SwitchToMode" = "Normal"; };
+    "c" = { SearchToggleOption = "CaseSensitivity"; };
+    "o" = { SearchToggleOption = "WholeWord"; };
+    "w" = { SearchToggleOption = "Wrap"; };
   };
 
   tmux = {
