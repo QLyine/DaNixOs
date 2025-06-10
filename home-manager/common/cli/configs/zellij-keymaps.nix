@@ -14,22 +14,20 @@ let
   mkAllKeybinds = modes:
     lib.mapAttrs (mode: keyMap: mkModeKeybinds keyMap) modes;
 
+  # GO To Tab
+  tabGoTo =
+    builtins.listToAttrs (
+      builtins.genList
+        (i:
+          let idx = toString i;
+          in {
+            name = "${idx}";
+            value = { GoToTab = i; SwitchToMode = "Normal"; };
+          })
+        9
+    );
 in
 mkAllKeybinds {
-  "shared_except \"tmux\" \"locked\"" = {
-    "Alt w" = { SwitchToMode = "Tmux"; };
-  };
-
-  "shared_except \"tmux\" \"locked\" \"entersearch\"" = {
-    "Alt f" = { SwitchToMode = "EnterSearch"; };
-    "Alt 1" = {
-      GoToTab = 0;
-    };
-    "Alt 2" = {
-      GoToTab = 1;
-    };
-  };
-
   entersearch = {
     "Ctrl c" = { SwitchToMode = "Normal"; };
     "Enter" = {
@@ -86,5 +84,31 @@ mkAllKeybinds {
     "Ctrl d" = { "PageScrollDown; SwitchToMode" = "Scroll"; };
     "Ctrl u" = { "PageScrollUp; SwitchToMode" = "Scroll"; };
   };
+
+  tab = tabGoTo // {
+    "Esc" = { SwitchToMode = "Normal"; };
+    "Ctrl c" = { SwitchToMode = "Normal"; };
+  };
+
+  "shared_except \"tmux\" \"locked\"" = {
+    "Alt w" = { SwitchToMode = "Tmux"; };
+    "Alt Left" = { "GoToPreviousTab; SwitchToMode" = "Normal"; };
+    "Alt Right" = { "GoToNextTab; SwitchToMode" = "Normal"; };
+
+    "Alt h" = { MoveFocus = "Left"; SwitchToMode = "Normal"; };
+    "Alt j" = { MoveFocus = "Down"; SwitchToMode = "Normal"; };
+    "Alt k" = { MoveFocus = "Up"; SwitchToMode = "Normal"; };
+    "Alt l" = { MoveFocus = "Right"; SwitchToMode = "Normal"; };
+  };
+
+  "shared_except \"tmux\" \"locked\" \"entersearch\"" = {
+    "Alt f" = { SwitchToMode = "EnterSearch"; };
+  };
+
+  "shared_except \"tab\" \"locked\" \"tmux\" \"search\" \"entersearch\"" = {
+    "Alt n" = { SwitchToMode = "Tab"; };
+  };
+
+
 }
 
