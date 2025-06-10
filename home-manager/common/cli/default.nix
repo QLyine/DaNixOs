@@ -3,6 +3,7 @@
 {
   imports = [
     ./atuin.nix
+    ./zellij.nix
   ];
 
   programs = {
