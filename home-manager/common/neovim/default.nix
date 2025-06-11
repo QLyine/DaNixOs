@@ -59,14 +59,9 @@
     };
     
     # Clipboard configuration
-    clipboard = pkgs.lib.mkMerge [
-      (pkgs.lib.mkIf pkgs.stdenv.isLinux {
-        providers.wl-copy.enable = true;
-      })
-      (pkgs.lib.mkIf pkgs.stdenv.isDarwin {
-        providers.pbcopy.enable = true;
-      })
-    ];
+    clipboard = pkgs.lib.mkIf pkgs.stdenv.isLinux {
+      providers.wl-copy.enable = true;
+    };
     
     # Global variables
     globals = {

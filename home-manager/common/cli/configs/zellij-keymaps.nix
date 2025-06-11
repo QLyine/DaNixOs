@@ -91,7 +91,7 @@ mkAllKeybinds {
   };
 
   "shared_except \"tmux\" \"locked\"" = {
-    "Alt w" = { SwitchToMode = "Tmux"; };
+    "Alt s" = { SwitchToMode = "Tmux"; };
     "Alt Left" = { "GoToPreviousTab; SwitchToMode" = "Normal"; };
     "Alt Right" = { "GoToNextTab; SwitchToMode" = "Normal"; };
 

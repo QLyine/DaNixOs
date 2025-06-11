@@ -69,11 +69,9 @@
         };
         modules = [
           ./home-manager/${darwinUsername}-macos.nix
+          nixvim.homeManagerModules.nixvim
           # You can add common home-manager modules here if you have them
           # e.g., ./home-manager/common/some-common-settings.nix
-        ];
-        sharedModules = [
-          nixvim.homeManagerModules.nixvim
         ];
       };
     };
