@@ -14,6 +14,7 @@
 
     settings = {
       search_mode = "fuzzy";
+      keymap_mode = "vim-insert";
     };
 
     daemon.enable = true;

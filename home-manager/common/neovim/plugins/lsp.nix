@@ -162,7 +162,7 @@
               runtime = {
                 version = "LuaJIT";
               };
-              diagnostics = {
+              diagnostic.settings = {
                 globals = [ "vim" ];
               };
               workspace = {
@@ -225,7 +225,7 @@
   };
 
   # Diagnostic configuration
-  programs.nixvim.diagnostics = {
+  programs.nixvim.diagnostic.settings = {
     virtual_text = {
       prefix = "●";
     };
