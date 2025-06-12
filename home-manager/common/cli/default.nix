@@ -4,6 +4,7 @@
   imports = [
     ./atuin.nix
     ./zellij.nix
+    ./nushell.nix
   ];
 
   programs = {
@@ -82,6 +83,10 @@
       enable = true;
       enableZshIntegration = true;
       nix-direnv.enable = true;
+    };
+    carapace = {
+      enable = true;
+      enableZshIntegration = true;
     };
   };
 
