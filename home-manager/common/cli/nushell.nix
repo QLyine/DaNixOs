@@ -5,9 +5,13 @@
       enable = true;
 
       shellAliases = {
+        l = "ls";
+        ll = "ls -l";
         grcm = "git reset --hard HEAD; try { git checkout master } catch { git checkout main }; git fetch --all; git pull; try { git reset --hard origin/master } catch { git reset --hard origin/main }";
         v = "nvim";
         vim = "nvim";
+        bpy = "bat --paging=always --language=yaml";
+        bpj = "bat --paging=always --language=json";
       };
 
       plugins = with pkgs; [
@@ -28,17 +32,18 @@
               cursor_shape = {
                 vi_insert = "line";
                 vi_normal = "block";
-
               };
 
+            };
+
+          completions = builtins.toJSON
+            {
+              algorithm = "fuzzy";
             };
         in
         ''
           $env.config = ${conf};
-
-          def yv [] {
-            to yaml | bat --paging=always --language=yaml
-          }
+          $env.completions = ${completions};
 
         '';
 
@@ -51,3 +56,6 @@
   };
 
 }
+
+
+

@@ -38,6 +38,8 @@
         "grcm" = "git reset --hard HEAD ; (git checkout master || git checkout main) ; git fetch --all ; git pull ; (git reset --hard origin/master || git reset --hard origin/main)";
         "v" = "nvim";
         "vim" = "nvim";
+        "bpy" = "bat --paging=always --language=yaml";
+        "bpj" = "bat --paging=always --language=json";
       };
       sessionVariables = {
         EDITOR = "vim";
