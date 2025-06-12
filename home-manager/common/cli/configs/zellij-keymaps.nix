@@ -90,6 +90,14 @@ mkAllKeybinds {
     "Ctrl c" = { SwitchToMode = "Normal"; };
   };
 
+  pane = {
+    "Esc" = { SwitchToMode = "Normal"; };
+    "Ctrl c" = { SwitchToMode = "Normal"; };
+    "i" = { Resize = "Increase"; };
+    "d" = { Resize = "Decrease"; };
+    "x" = { "CloseFocus; SwitchToMode" = "Normal"; };
+  };
+
   "shared_except \"tmux\" \"locked\"" = {
     "Alt s" = { SwitchToMode = "Tmux"; };
     "Ctrl s" = { SwitchToMode = "Tmux"; };
@@ -108,6 +116,7 @@ mkAllKeybinds {
 
   "shared_except \"tab\" \"locked\" \"tmux\" \"search\" \"entersearch\"" = {
     "Alt n" = { SwitchToMode = "Tab"; };
+    "Alt p" = { SwitchToMode = "Pane"; };
   };
 
 
