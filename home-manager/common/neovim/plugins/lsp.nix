@@ -4,28 +4,7 @@
     lsp = {
       enable = true;
 
-      # Keymaps
-      keymaps = {
-        silent = true;
-        diagnostic = {
-          "<leader>k" = "goto_prev";
-          "<leader>j" = "goto_next";
-          "<leader>ef" = "open_float";
-          "<leader>el" = "setloclist";
-        };
-
-        lspBuf = {
-          "gd" = "definition";
-          "gD" = "declaration";
-          "gr" = "references";
-          "gi" = "implementation";
-          "gt" = "type_definition";
-          "K" = "hover";
-          "<leader>ca" = "code_action";
-          "<leader>rn" = "rename";
-          "<leader>f" = "format";
-        };
-      };
+      # Keymaps are defined in core/keymaps.nix to avoid conflicts.
 
       # Language servers
       servers = {

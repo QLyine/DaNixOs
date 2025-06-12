@@ -112,8 +112,8 @@
           };
         };
         "l" = "focus_preview";
-        "S" = "open_split";
-        "s" = "open_vsplit";
+        "s" = "open_split";
+        "v" = "open_vsplit";
         "t" = "open_tabnew";
         "w" = "open_with_window_picker";
         "C" = "close_node";

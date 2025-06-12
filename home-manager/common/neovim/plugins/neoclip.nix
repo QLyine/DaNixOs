@@ -36,7 +36,7 @@
         telescope = {
           i = {
             select = "<cr>";
-            paste = "<c-p>";
+            paste = "<c-y>";
             paste_behind = "<c-k>";
             replay = "<c-q>";
             delete = "<c-d>";
