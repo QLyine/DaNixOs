@@ -14,7 +14,7 @@ let
       source = ./${nushellScripts}/${filename};
     };
   }) files);
-  sourceCommands = pkgs.lib.strings.concatMapStringsSep "\n" (file: ''source "$${homeDir}/${nushellLibDirs}/${file}"'') files;
+  sourceCommands = pkgs.lib.strings.concatMapStringsSep "\n" (file: ''source "${homeDir}/${nushellLibDirs}/${file}"'') files;
 in
 {
   programs = {
