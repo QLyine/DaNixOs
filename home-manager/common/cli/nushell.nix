@@ -1,4 +1,21 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
+let 
+  homeDir = config.home.homeDirectory;
+
+  nushellLibDirs = ".nushell/scripts";
+  nushellScripts = "nushell-scripts";
+  files = [
+    "nix-utils.nu"
+  ];
+    # Build home.file attributes
+  fileAttrs = builtins.listToAttrs (map (filename: {
+    name = "${nushellLibDirs}/${filename}";
+    value = {
+      source = ./${nushellScripts}/${filename};
+    };
+  }) files);
+  sourceCommands = pkgs.lib.strings.concatMapStringsSep "\n" (file: ''source "$${homeDir}/${nushellLibDirs}/${file}"'') files;
+in
 {
   programs = {
     nushell = {
@@ -40,11 +57,17 @@
             {
               algorithm = "fuzzy";
             };
+          libDirs = builtins.toJSON [
+            "${homeDir}/${nushellLibDirs}"
+          ];
         in
         ''
           $env.config = ${conf};
           $env.completions = ${completions};
 
+          $env.NU_LIB_DIRS = ${libDirs};
+
+          ${sourceCommands}
         '';
 
     };
@@ -55,7 +78,6 @@
     carapace.enableNushellIntegration = true;
   };
 
+  home.file = fileAttrs;
+
 }
-
-
-

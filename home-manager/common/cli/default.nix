@@ -42,7 +42,7 @@
         "bpj" = "bat --paging=always --language=json";
       };
       sessionVariables = {
-        EDITOR = "vim";
+        EDITOR = "nvim";
         TERM = "xterm-256color";
       };
       zplug = {
