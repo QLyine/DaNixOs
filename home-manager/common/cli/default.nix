@@ -118,5 +118,6 @@
     nixd
     nixpkgs-fmt
     unzip
+    nodejs_24
   ];
 }

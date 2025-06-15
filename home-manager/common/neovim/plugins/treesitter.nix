@@ -2,7 +2,7 @@
 {
   programs.nixvim.plugins.treesitter = {
     enable = true;
-    
+
     # Language parsers
     grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
       bash
@@ -28,15 +28,16 @@
       vim
       vimdoc
       yaml
+      nu
     ];
-    
+
     settings = {
       # Enable syntax highlighting
       highlight = {
         enable = true;
         additional_vim_regex_highlighting = false;
       };
-      
+
       # Enable incremental selection
       incremental_selection = {
         enable = true;
@@ -47,22 +48,22 @@
           node_decremental = "<M-space>";
         };
       };
-      
+
       # Enable indentation
       indent = {
         enable = true;
       };
-      
+
       # Enable folding
       fold = {
         enable = true;
       };
     };
-    
+
     # Additional treesitter modules
     nixvimInjections = true;
   };
-  
+
   # Treesitter-related plugins
   programs.nixvim.plugins = {
     # Treesitter context
@@ -81,7 +82,7 @@
         on_attach = null;
       };
     };
-    
+
     # Treesitter textobjects
     treesitter-textobjects = {
       enable = true;
@@ -137,7 +138,7 @@
         };
       };
     };
-    
+
     # Rainbow delimiters
     rainbow-delimiters = {
       enable = true;
@@ -159,7 +160,7 @@
         "RainbowDelimiterCyan"
       ];
     };
-    
+
     # Treesitter refactor
     treesitter-refactor = {
       enable = true;

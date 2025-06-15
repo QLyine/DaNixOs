@@ -6,6 +6,7 @@ alias gstash = git stash
 alias gstashpop = git stash pop
 
 alias ggpush = git push --set-upstream origin (git branch --show-current)
+alias ggpull = git pull origin/(git branch --show-current)
 
 # Functions
 
