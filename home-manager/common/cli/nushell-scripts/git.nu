@@ -41,3 +41,25 @@ def grcm [] {
     git reset --hard origin/main
   }
 }
+
+def gconf [] {
+   let selected = (
+     git branch --all --color=never
+     | lines
+     | str trim
+     | where { |it| not ($it | str contains 'HEAD') }
+     | str replace '* ' ''
+     | str replace 'remotes/' ''
+     | uniq
+     | fzf
+     | split words
+     | get 1
+     | str trim
+   )
+
+    if ($selected | is-empty) {
+      print "no branch selected"
+    } else {
+      git checkout $selected
+    }
+}
