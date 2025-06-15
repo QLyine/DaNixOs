@@ -7,6 +7,7 @@ let
   files = [
     "nix-utils.nu"
     "git.nu"
+    "docker.nu"
   ];
   # Build home.file attributes
   fileAttrs = builtins.listToAttrs (map
