@@ -1,4 +1,4 @@
-{ config, pkgs, system, inputs, hostname, ... }:
+{ config, pkgs, system, inputs, hostname, lib, ... }:
 
 {
   imports = [
@@ -21,9 +21,9 @@
     };
     zsh.oh-my-zsh = {
       enable = true;
-      plugins = [ 
-        "git" 
-        "sudo" 
+      plugins = [
+        "git"
+        "sudo"
       ];
       theme = "robbyrussell";
     };
@@ -37,6 +37,17 @@
   home.packages = with pkgs; [
     bitwarden-cli
   ];
+
+  services.podman = lib.mkIf (config.virtualisation.podman.enable or false) {
+    settings.policy = {
+      default = [{ type = "insecureAcceptAnything"; }];
+      transports = {
+        "docker-daemon" = {
+          "" = [{ type = "insecureAcceptAnything"; }];
+        };
+      };
+    };
+  };
 
   home.stateVersion = "24.11";
 }

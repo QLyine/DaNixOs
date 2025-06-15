@@ -41,13 +41,3 @@ def grcm [] {
     git reset --hard origin/main
   }
 }
-
-def gcof [] {
-  let selected = (git branch --all --color=never | str trim | str replace 'remotes/' '' | uniq | fzf)
-
-  if ($selected | is-empty) {
-    print "No branch selected"
-  } else {
-    git checkout ($selected | str trim)
-  }
-}
