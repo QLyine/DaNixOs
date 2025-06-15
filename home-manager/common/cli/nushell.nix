@@ -1,19 +1,22 @@
 { pkgs, config, ... }:
-let 
+let
   homeDir = config.home.homeDirectory;
 
   nushellLibDirs = ".nushell/scripts";
   nushellScripts = "nushell-scripts";
   files = [
     "nix-utils.nu"
+    "git.nu"
   ];
-    # Build home.file attributes
-  fileAttrs = builtins.listToAttrs (map (filename: {
-    name = "${nushellLibDirs}/${filename}";
-    value = {
-      source = ./${nushellScripts}/${filename};
-    };
-  }) files);
+  # Build home.file attributes
+  fileAttrs = builtins.listToAttrs (map
+    (filename: {
+      name = "${nushellLibDirs}/${filename}";
+      value = {
+        source = ./${nushellScripts}/${filename};
+      };
+    })
+    files);
   sourceCommands = pkgs.lib.strings.concatMapStringsSep "\n" (file: ''source "${homeDir}/${nushellLibDirs}/${file}"'') files;
 in
 {
@@ -24,7 +27,6 @@ in
       shellAliases = {
         l = "ls";
         ll = "ls -l";
-        grcm = "git reset --hard HEAD; try { git checkout master } catch { git checkout main }; git fetch --all; git pull; try { git reset --hard origin/master } catch { git reset --hard origin/main }";
         v = "nvim";
         vim = "nvim";
         bpy = "bat --paging=always --language=yaml";
@@ -81,3 +83,4 @@ in
   home.file = fileAttrs;
 
 }
+
