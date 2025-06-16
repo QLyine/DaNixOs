@@ -78,7 +78,7 @@ in
     atuin.enableNushellIntegration = true;
     zoxide.enableNushellIntegration = true;
     starship.enableNushellIntegration = true;
-    carapace.enableNushellIntegration = true;
+    carapace.enableNushellIntegration = false;
   };
 
   home.file = fileAttrs;

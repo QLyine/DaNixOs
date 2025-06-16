@@ -94,8 +94,8 @@
       nix-direnv.enable = true;
     };
     carapace = {
-      enable = true;
-      enableZshIntegration = true;
+      enable = false;
+      enableZshIntegration = false;
     };
   };
 
