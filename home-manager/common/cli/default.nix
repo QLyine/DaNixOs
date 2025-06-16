@@ -20,6 +20,13 @@
     starship = {
       enable = true;
       enableZshIntegration = true;
+      settings = {
+        kubernetes = {
+          disabled = false;
+        };
+        ruby.disabled = true;
+        python.disabled = true;
+      };
     };
     zoxide = {
       enable = true;
