@@ -117,6 +117,7 @@ mkAllKeybinds {
   "shared_except \"tab\" \"locked\" \"tmux\" \"search\" \"entersearch\"" = {
     "Alt n" = { SwitchToMode = "Tab"; };
     "Alt p" = { SwitchToMode = "Pane"; };
+    "Alt z" = { "ToggleFocusFullscreen; SwitchToMode" = "Normal"; };
   };
 
 
