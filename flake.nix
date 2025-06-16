@@ -10,7 +10,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
 
   outputs = { nixpkgs, home-manager, nixvim, ... }@inputs:
@@ -30,6 +29,13 @@
         system = darwinSystem;
         config.allowUnfree = true;
       };
+      # Fetch the non-flake GitHub repo
+      nuScripts = pkgs.fetchFromGitHub {
+        owner = "nushell";
+        repo = "nu_scripts";
+        rev = "32cdc96414995e41de2a653719b7ae7375352eef";  # Pin a specific commit
+        sha256 = "sha256-vn/YosQZ4OkWQqG4etNwISjzGJfxMucgC3wMpMdUwUg=";  # Fill this in
+      };
 
     in {
       nixosConfigurations = nixpkgs.lib.mapAttrs (hostname: nxSys:
@@ -44,6 +50,7 @@
               home-manager.users.${username} = import ./home-manager/${username}.nix;
               home-manager.extraSpecialArgs = { # Pass hostname to home-manager modules
                 inherit pkgs system inputs username hostname;
+                nuCustomCompletions = "${nuScripts}/custom-completions";
               };
               home-manager.sharedModules = [
                 nixvim.homeManagerModules.nixvim
@@ -64,6 +71,9 @@
         extraSpecialArgs = {
           inherit inputs;
           username = darwinUsername;
+
+          # Pass the nu modules directory to your home config
+          nuCustomCompletions = "${nuScripts}/custom-completions";
           # You can add hostname here if needed by your configs, e.g.:
           # hostname = "your-mac-hostname"; 
         };

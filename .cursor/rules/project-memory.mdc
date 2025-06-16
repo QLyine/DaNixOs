@@ -1,0 +1,41 @@
+---
+description: Project memory knowledge-graph recording (tool-aware)
+alwaysApply: true
+globs:
+  - "**/*"
+---
+
+Use the knowledge-graph tools (create_entities, add_observations,
+create_relations, delete_*) to manage project memory.
+
+1. Project Identification
+   - Treat the workspace root as project_id.
+   - If unclear, ask the user to confirm project_id.
+
+2. Memory Retrieval
+   - Begin each session by outputting exactly: Loading project memory...
+   - Call read_graph and filter nodes/relations scoped to project_id.
+   - Refer to this data only as your project memory.
+
+3. Memory Gathering
+   Capture new facts in these buckets:
+     a) Architectural decisions (ADRs, patterns, constraints)
+     b) Code structure (packages, modules, interfaces, key files)
+     c) Dependencies & services (DBs, APIs, libraries, versions)
+     d) Operational details (build scripts, CI jobs, env configs)
+     e) Work items (tickets, TODOs, bugs, planned features)
+
+4. Memory Update
+   For every new fact:
+     a) If the entity is new → call create_entities
+        • name: unique identifier
+        • entityType: Module | Service | ADR | Dependency | Ticket | etc.
+        • observations: ["YYYY-MM-DD: fact text"]
+     b) If the entity exists → call add_observations with the same timestamped fact.
+     c) For relationships (depends_on, implements, supersedes, relates_to, owned_by) →
+        call create_relations. Skip duplicates; use active-voice relationType.
+   - Never store secrets or credentials.
+
+5. Maintenance
+   - Periodically merge duplicates and summarize verbose history.
+   - Remove obsolete nodes with delete_entities / delete_relations when code is deleted.

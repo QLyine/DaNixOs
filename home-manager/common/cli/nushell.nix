@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, nuCustomCompletions, ... }:
 let
   homeDir = config.home.homeDirectory;
 
@@ -19,6 +19,36 @@ let
     })
     files);
   sourceCommands = pkgs.lib.strings.concatMapStringsSep "\n" (file: ''source "${homeDir}/${nushellLibDirs}/${file}"'') files;
+
+  # Path where remote completion scripts will be copied.
+  completionsTargetDir = ".config/nushell/custom-completions";
+
+
+  # Whitelist of completion scripts to source.
+  # Add the full path from the root of the completions directory.
+  completionFilesToSource = [
+    "git/git-completions.nu"
+    "docker/docker-completions.nu"
+    "nix/nix-completions.nu"
+    "zellij/zellij-completions.nu"
+    "uv/uv-completions.nu"
+    "bat/bat-completions.nu"
+    "curl/curl-completions.nu"
+    "cargo/cargo-completions.nu"
+    "eza/eza-completions.nu"
+    "less/less-completions.nu"
+    "make/make-completions.nu"
+    "npm/npm-completions.nu"
+    "ssh/ssh-completions.nu"
+    "tar/tar-completions.nu"
+    "auto-generate/completions/minikube.nu"
+    # Add other working completion files here
+  ];
+
+  completionSourceCommands = pkgs.lib.strings.concatMapStringsSep "\n"
+    (file: ''source "${homeDir}/${completionsTargetDir}/${file}"'')
+    completionFilesToSource;
+
 in
 {
   programs = {
@@ -70,7 +100,10 @@ in
 
           $env.NU_LIB_DIRS = ${libDirs};
 
+          $env.VISUAL = 'nvim';
+
           ${sourceCommands}
+          ${completionSourceCommands}
         '';
 
     };
@@ -81,7 +114,13 @@ in
     carapace.enableNushellIntegration = false;
   };
 
-  home.file = fileAttrs;
+  home.file = fileAttrs // {
+    # Recursively copy the completion scripts from the Nix store to home.
+    "${completionsTargetDir}" = {
+      source = nuCustomCompletions;
+      recursive = true;
+    };
+  };
 
 }
 
