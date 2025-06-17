@@ -35,8 +35,7 @@
             home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
               extraSpecialArgs = {
-                inherit inputs username;
-                nuCustomCompletions = "${nuScripts}/custom-completions";
+                inherit inputs username nuScripts;
               };
               modules = [
                 nixvim.homeManagerModules.nixvim
@@ -65,8 +64,7 @@
                   home-manager.useGlobalPkgs = true;
                   home-manager.users.${username} = import ./home-manager/${username}.nix;
                   home-manager.extraSpecialArgs = {
-                    inherit pkgs system inputs username hostname;
-                    nuCustomCompletions = "${nuScripts}/custom-completions";
+                    inherit pkgs system inputs username hostname nuScripts;
                   };
                   home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
                 }

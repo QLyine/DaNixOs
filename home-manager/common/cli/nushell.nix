@@ -1,4 +1,4 @@
-{ pkgs, config, nuCustomCompletions, ... }:
+{ pkgs, config, nuScripts, ... }:
 let
   homeDir = config.home.homeDirectory;
 
@@ -21,7 +21,8 @@ let
   sourceCommands = pkgs.lib.strings.concatMapStringsSep "\n" (file: ''source "${homeDir}/${nushellLibDirs}/${file}"'') files;
 
   # Path where remote completion scripts will be copied.
-  completionsTargetDir = ".config/nushell/custom-completions";
+  #completionsTargetDir = ".config/nushell/custom-completions";
+  #modulesTargetDir = ".config/nushell/modules";
 
 
   # Whitelist of completion scripts to source.
@@ -45,9 +46,18 @@ let
     # Add other working completion files here
   ];
 
+  modulesToSource = [
+    "argx"
+    #"kubernetes"
+  ];
+
   completionSourceCommands = pkgs.lib.strings.concatMapStringsSep "\n"
-    (file: ''source "${homeDir}/${completionsTargetDir}/${file}"'')
+    (file: ''source "${nuScripts}/custom-completions/${file}"'')
     completionFilesToSource;
+
+  moduleSourceCommands = pkgs.lib.strings.concatMapStringsSep "\n"
+    (module: ''source "${nuScripts}/modules/${module}/mod.nu"'' )
+    modulesToSource;
 
 in
 {
@@ -104,6 +114,7 @@ in
 
           ${sourceCommands}
           ${completionSourceCommands}
+          ${moduleSourceCommands}
         '';
 
     };
@@ -116,10 +127,10 @@ in
 
   home.file = fileAttrs // {
     # Recursively copy the completion scripts from the Nix store to home.
-    "${completionsTargetDir}" = {
-      source = nuCustomCompletions;
-      recursive = true;
-    };
+    #"${completionsTargetDir}" = {
+    #  source = nuCustomCompletions;
+    #  recursive = true;
+    #};
   };
 
 }
