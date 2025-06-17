@@ -2,6 +2,7 @@
   description = "My flake-based NixOS + Home Manager setup";
 
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -12,78 +13,95 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixvim, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      username = "qlyine"; # Assuming this is for Linux
+  outputs = inputs@{ self, flake-parts, nixpkgs, home-manager, nixvim, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" "aarch64-darwin" ];
 
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
-      # Variables for macOS Home Manager
-      darwinSystem = "aarch64-darwin"; # Or "x86_64-darwin" for Intel Macs
-      darwinUsername = "dso17";
-      pkgsDarwin = import nixpkgs {
-        system = darwinSystem;
-        config.allowUnfree = true;
-      };
-      # Fetch the non-flake GitHub repo
-      nuScripts = pkgs.fetchFromGitHub {
-        owner = "nushell";
-        repo = "nu_scripts";
-        rev = "32cdc96414995e41de2a653719b7ae7375352eef";  # Pin a specific commit
-        sha256 = "sha256-vn/YosQZ4OkWQqG4etNwISjzGJfxMucgC3wMpMdUwUg=";  # Fill this in
-      };
-
-    in {
-      nixosConfigurations = nixpkgs.lib.mapAttrs (hostname: nxSys:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./hosts/${hostname}/configuration.nix # Assumes you have per-host configs here
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useUserPackages = true;
-              home-manager.useGlobalPkgs = true;
-              home-manager.users.${username} = import ./home-manager/${username}.nix;
-              home-manager.extraSpecialArgs = { # Pass hostname to home-manager modules
-                inherit pkgs system inputs username hostname;
+      flake = {
+        lib = {
+          makeHomeManagerConfig = { system, username, modules ? [] }:
+            let
+              pkgs = import inputs.nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+              };
+              nuScripts = pkgs.fetchFromGitHub {
+                owner = "nushell";
+                repo = "nu_scripts";
+                rev = "32cdc96414995e41de2a653719b7ae7375352eef";
+                sha256 = "sha256-vn/YosQZ4OkWQqG4etNwISjzGJfxMucgC3wMpMdUwUg=";
+              };
+            in
+            home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              extraSpecialArgs = {
+                inherit inputs username;
                 nuCustomCompletions = "${nuScripts}/custom-completions";
               };
-              home-manager.sharedModules = [
+              modules = [
                 nixvim.homeManagerModules.nixvim
-              ];
-            }
-          ];
-        }
-      ) {
-        # Define your hosts here
-        "obelix" = { }; # Example for host "obelix"
-        # "another-host" = { }; # Example for another host
-        # The key (e.g., "obelix") will be the hostname
-      };
+              ] ++ modules;
+            };
 
-      # Home Manager configuration for standalone macOS
-      homeConfigurations."${darwinUsername}" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgsDarwin; # Use pkgs for the Darwin system
-        extraSpecialArgs = {
-          inherit inputs;
-          username = darwinUsername;
-
-          # Pass the nu modules directory to your home config
-          nuCustomCompletions = "${nuScripts}/custom-completions";
-          # You can add hostname here if needed by your configs, e.g.:
-          # hostname = "your-mac-hostname"; 
+          makeNixosConfig = { system, hostname, username, modules ? [] }:
+            let
+              pkgs = import inputs.nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+              };
+              nuScripts = pkgs.fetchFromGitHub {
+                owner = "nushell";
+                repo = "nu_scripts";
+                rev = "32cdc96414995e41de2a653719b7ae7375352eef";
+                sha256 = "sha256-vn/YosQZ4OkWQqG4etNwISjzGJfxMucgC3wMpMdUwUg=";
+              };
+            in
+            nixpkgs.lib.nixosSystem {
+              inherit system;
+              modules = [
+                home-manager.nixosModules.home-manager
+                {
+                  home-manager.useUserPackages = true;
+                  home-manager.useGlobalPkgs = true;
+                  home-manager.users.${username} = import ./home-manager/${username}.nix;
+                  home-manager.extraSpecialArgs = {
+                    inherit pkgs system inputs username hostname;
+                    nuCustomCompletions = "${nuScripts}/custom-completions";
+                  };
+                  home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
+                }
+              ] ++ modules;
+            };
         };
-        modules = [
-          ./home-manager/${darwinUsername}-macos.nix
-          nixvim.homeManagerModules.nixvim
-          # You can add common home-manager modules here if you have them
-          # e.g., ./home-manager/common/some-common-settings.nix
-        ];
+
+        nixosConfigurations = {
+          obelix = self.lib.makeNixosConfig {
+            system = "x86_64-linux";
+            hostname = "obelix";
+            username = "qlyine";
+            modules = [ ./hosts/obelix/configuration.nix ];
+          };
+        };
+
+        homeConfigurations = {
+          "dso17" = self.lib.makeHomeManagerConfig {
+            system = "aarch64-darwin";
+            username = "dso17";
+            modules = [ ./home-manager/dso17-macos.nix ];
+          };
+        };
       };
+
+      perSystem = { system, ... }:
+        let
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in
+        {
+          legacyPackages = { inherit pkgs; };
+        };
     };
 }
 
