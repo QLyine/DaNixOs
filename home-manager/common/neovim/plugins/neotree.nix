@@ -1,43 +1,43 @@
 {
   programs.nixvim.plugins.neo-tree = {
     enable = true;
-    
+
     # Close if last window
     closeIfLastWindow = true;
-    
+
     # Popup border style
     popupBorderStyle = "rounded";
-    
+
     # Enable diagnostics
     enableDiagnostics = true;
-    
+
     # Enable git status
     enableGitStatus = true;
-    
+
     # Enable modified markers
     enableModifiedMarkers = true;
-    
+
     # Enable refresh on write
     enableRefreshOnWrite = true;
-    
+
     # Git status async
     gitStatusAsync = true;
-    
+
     # Log level
     logLevel = "info";
-    
+
     # Log to file
     logToFile = false;
-    
+
     # Sort case insensitive
     sortCaseInsensitive = false;
-    
+
     # Default component configs
     defaultComponentConfigs = {
       container = {
         enableCharacterFade = true;
       };
-      
+
       indent = {
         indentSize = 2;
         padding = 1;
@@ -50,7 +50,7 @@
         expanderExpanded = "";
         expanderHighlight = "NeoTreeExpander";
       };
-      
+
       icon = {
         folderClosed = "";
         folderOpen = "";
@@ -59,18 +59,18 @@
         default = "*";
         highlight = "NeoTreeFileIcon";
       };
-      
+
       modified = {
         symbol = "[+]";
         highlight = "NeoTreeModified";
       };
-      
+
       name = {
         trailingSlash = false;
         useGitStatusColors = true;
         highlight = "NeoTreeFileName";
       };
-      
+
       gitStatus = {
         symbols = {
           added = "✚";
@@ -84,9 +84,9 @@
           conflict = "";
         };
       };
-      
+
     };
-    
+
     # Window settings
     window = {
       position = "left";
@@ -95,7 +95,7 @@
         noremap = true;
         nowait = true;
       };
-      
+
       mappings = {
         "<space>" = {
           command = "toggle_node";
@@ -140,10 +140,10 @@
         "i" = "show_file_details";
       };
     };
-    
+
     # Nesting rules
-    nestingRules = {};
-    
+    nestingRules = { };
+
     # Filesystem settings
     filesystem = {
       filteredItems = {
@@ -170,16 +170,16 @@
           ".null-ls_*"
         ];
       };
-      
+
       followCurrentFile = {
-        enabled = false;
-        leaveDirsOpen = false;
+        enabled = true;
+        leaveDirsOpen = true;
       };
-      
+
       groupEmptyDirs = false;
       hijackNetrwBehavior = "open_default";
       useLibuvFileWatcher = false;
-      
+
       window = {
         mappings = {
           "<bs>" = "navigate_up";
@@ -201,7 +201,7 @@
         };
       };
     };
-    
+
     # Buffers settings
     buffers = {
       followCurrentFile = {
@@ -209,7 +209,7 @@
         leaveDirsOpen = false;
       };
       groupEmptyDirs = true;
-      
+
       window = {
         mappings = {
           "bd" = "buffer_delete";
@@ -224,7 +224,7 @@
         };
       };
     };
-    
+
     # Git status settings
     gitStatus = {
       window = {
