@@ -22,8 +22,9 @@
     userName = "Daniel Santos"; # Replace with your actual name
     userEmail = "daniel.santos@sky.uk"; # Replace with your actual email
     extraConfig = {
-      init.defaultBranch = "main";
+      init.defaultBranch = "master";
       core.editor = "nvim";
+      url."git@github.com:NBCUDTC/spell".insteadOf = "https://github.com/NBCUDTC/spell";
     };
   };
 
@@ -31,10 +32,16 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     PAGER = "less";
-    # XDG_CONFIG_HOME = "${config.home.homeDirectory}/.config"; # Already default
+    GOPRIVATE = "github.com/NBCUDTC/*,github.com/sky-uk/*,github.com-nbcudtc/*,github.com/nbcudtc/*";
   };
+
+  programs.zsh.sessionVariables = {
+    GOPRIVATE = "github.com/NBCUDTC/*,github.com/sky-uk/*,github.com-nbcudtc/*,github.com/nbcudtc/*";
+  };
+
 
   home.packages = with pkgs; [
     home-manager
   ];
-} 
+}
+
