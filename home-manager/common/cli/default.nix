@@ -104,6 +104,7 @@
     # GOLang Paths
     "$HOME/go"
     "$HOME/go/bin"
+    "$HOME/.krew/bin"
   ];
 
   home.packages = with pkgs; [
@@ -126,5 +127,6 @@
     nixpkgs-fmt
     unzip
     nodejs_24
+    krew
   ];
 }
