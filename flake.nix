@@ -4,6 +4,7 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-2505.url = "github:NixOS/nixpkgs/release-25.05"; # stable branch 25.05
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
@@ -13,13 +14,13 @@
     };
   };
 
-  outputs = inputs@{ self, flake-parts, nixpkgs, home-manager, nixvim, ... }:
+  outputs = inputs@{ self, flake-parts, nixpkgs, nixpkgs-2505, home-manager, nixvim, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" ];
 
       flake = {
         lib = {
-          makeHomeManagerConfig = { system, username, modules ? [] }:
+          makeHomeManagerConfig = { system, username, modules ? [ ] }:
             let
               pkgs = import inputs.nixpkgs {
                 inherit system;
@@ -42,9 +43,13 @@
               ] ++ modules;
             };
 
-          makeNixosConfig = { system, hostname, username, modules ? [] }:
+          makeNixosConfig = { system, hostname, username, modules ? [ ] }:
             let
               pkgs = import inputs.nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+              };
+              pkgsStable = import inputs.nixpkgs-2505 {
                 inherit system;
                 config.allowUnfree = true;
               };
@@ -64,7 +69,7 @@
                   home-manager.useGlobalPkgs = true;
                   home-manager.users.${username} = import ./home-manager/${username}.nix;
                   home-manager.extraSpecialArgs = {
-                    inherit pkgs system inputs username hostname nuScripts;
+                    inherit pkgs system inputs username hostname nuScripts pkgsStable;
                   };
                   home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
                 }

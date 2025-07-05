@@ -142,6 +142,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-2505": {
+      "locked": {
+        "lastModified": 1750436085,
+        "narHash": "sha256-RFjXikf8ukyvornbvHIyCWHID2/7WoQ1oHsQbApqIrU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "fe334a196d403d2a121f6433b0c4d8421ab2360c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-25.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1748740939,
@@ -224,6 +240,7 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-2505": "nixpkgs-2505",
         "nixvim": "nixvim",
         "zen-browser": "zen-browser"
       }
@@ -264,11 +281,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1750379318,
-        "narHash": "sha256-XN5OBCCXKmPBL+UXyyScI5HGgs4U8OFGQTnKuxurBFI=",
+        "lastModified": 1750436703,
+        "narHash": "sha256-1cnsylamHkbwBJKcH6HP/HDQysQ8d+AMSepXl0U3IIc=",
         "owner": "0xc000022070",
         "repo": "zen-browser-flake",
-        "rev": "0dbc4bcd91002962885f05d18263b0b51a053112",
+        "rev": "a6273cc86a9ee8527e32649b56e865ad3bf1705d",
         "type": "github"
       },
       "original": {
