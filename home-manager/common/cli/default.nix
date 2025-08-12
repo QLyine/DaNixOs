@@ -128,5 +128,6 @@
     unzip
     nodejs_24
     krew
+    nvimpager
   ];
 }
