@@ -1,4 +1,4 @@
-{ config, pkgs, system, inputs, ... }:
+{ config, pkgs, pkgsStable, system, inputs, ... }:
 
 {
 
@@ -15,7 +15,10 @@
     inter
     wl-clipboard
     obsidian
+    pkgsStable.plex-desktop
   ];
+
+  programs.seahorse.enable = true;
 
   home.pointerCursor = {
     name = "capitaine-cursors-white";
