@@ -15,9 +15,9 @@
   programs = {
     zsh = {
       enable = true;
-      sessionVariables = {
-        SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
-      };
+      #sessionVariables = {
+      #  SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+      #};
     };
     zsh.oh-my-zsh = {
       enable = true;

@@ -143,12 +143,14 @@
 
   # Ensure PAM integration for unlocking keyring on login
   security.pam.services.gdm.enableGnomeKeyring = true;
+  security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    enableSSHSupport = false;
+    pinentryPackage = pkgs.pinentry-gnome3;
   };
 
   programs.seahorse.enable = true;
