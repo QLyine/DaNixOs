@@ -18,8 +18,6 @@
     pkgsStable.plex-desktop
   ];
 
-  programs.seahorse.enable = true;
-
   home.pointerCursor = {
     name = "capitaine-cursors-white";
     size = 24;

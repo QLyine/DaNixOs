@@ -53,10 +53,12 @@
 
   # Enable the GNOME Desktop Environment.
   services.desktopManager = {
-    gnome.enable = true;
+    gnome.enable = false;
+    cosmic.enable = true;
   };
   services.displayManager = {
-    gdm.enable = true;
+    gdm.enable = false;
+    cosmic-greeter.enable = true;
   };
 
   # Configure keymap in X11
@@ -134,6 +136,7 @@
     git
     gnome-keyring
     efibootmgr
+    seahorse
   ];
 
   services.gnome.gnome-keyring.enable = true;
@@ -147,6 +150,8 @@
     enable = true;
     enableSSHSupport = true;
   };
+
+  programs.seahorse.enable = true;
 
   # List services that you want to enable:
 
