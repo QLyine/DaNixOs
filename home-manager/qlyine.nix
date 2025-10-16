@@ -38,6 +38,15 @@
     bitwarden-cli
   ];
 
+  services = {
+    gnome-keyring = {
+      enable = true;
+      components = [ "pkcs11" "secrets" "ssh" ];
+    };
+
+    ssh-agent.enable = false;
+  };
+
   services.podman = lib.mkIf (config.virtualisation.podman.enable or false) {
     settings.policy = {
       default = [{ type = "insecureAcceptAnything"; }];
