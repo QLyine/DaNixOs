@@ -26,17 +26,11 @@
                 inherit system;
                 config.allowUnfree = true;
               };
-              nuScripts = pkgs.fetchFromGitHub {
-                owner = "nushell";
-                repo = "nu_scripts";
-                rev = "32cdc96414995e41de2a653719b7ae7375352eef";
-                sha256 = "sha256-vn/YosQZ4OkWQqG4etNwISjzGJfxMucgC3wMpMdUwUg=";
-              };
             in
             home-manager.lib.homeManagerConfiguration {
               inherit pkgs;
               extraSpecialArgs = {
-                inherit inputs username nuScripts;
+                inherit inputs username;
               };
               modules = [
                 nixvim.homeManagerModules.nixvim
@@ -53,12 +47,6 @@
                 inherit system;
                 config.allowUnfree = true;
               };
-              nuScripts = pkgs.fetchFromGitHub {
-                owner = "nushell";
-                repo = "nu_scripts";
-                rev = "32cdc96414995e41de2a653719b7ae7375352eef";
-                sha256 = "sha256-vn/YosQZ4OkWQqG4etNwISjzGJfxMucgC3wMpMdUwUg=";
-              };
             in
             nixpkgs.lib.nixosSystem {
               inherit system;
@@ -69,7 +57,7 @@
                   home-manager.useGlobalPkgs = true;
                   home-manager.users.${username} = import ./home-manager/${username}.nix;
                   home-manager.extraSpecialArgs = {
-                    inherit pkgs system inputs username hostname nuScripts pkgsStable;
+                    inherit pkgs system inputs username hostname pkgsStable;
                   };
                   home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
                 }

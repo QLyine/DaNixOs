@@ -53,10 +53,12 @@
 
   # Enable the GNOME Desktop Environment.
   services.desktopManager = {
-    gnome.enable = true;
+    gnome.enable = false;
+    cosmic.enable = true;
   };
   services.displayManager = {
-    gdm.enable = true;
+    gdm.enable = false;
+    cosmic-greeter.enable = true;
   };
 
   # Configure keymap in X11
@@ -134,19 +136,24 @@
     git
     gnome-keyring
     efibootmgr
+    seahorse
   ];
 
-  services.gnome.gnome-keyring.enable = true;
+  #services.gnome.gnome-keyring.enable = true;
 
   # Ensure PAM integration for unlocking keyring on login
   security.pam.services.gdm.enableGnomeKeyring = true;
+  security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
   security.pam.services.login.enableGnomeKeyring = true;
 
   programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    enableSSHSupport = false;
+    pinentryPackage = pkgs.pinentry-gnome3;
   };
+
+  programs.seahorse.enable = true;
 
   # List services that you want to enable:
 

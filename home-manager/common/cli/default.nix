@@ -4,7 +4,6 @@
   imports = [
     ./atuin.nix
     ./zellij.nix
-    ./nushell.nix
   ];
 
   programs = {

@@ -15,9 +15,9 @@
   programs = {
     zsh = {
       enable = true;
-      sessionVariables = {
-        SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
-      };
+      #sessionVariables = {
+      #  SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
+      #};
     };
     zsh.oh-my-zsh = {
       enable = true;
@@ -37,6 +37,15 @@
   home.packages = with pkgs; [
     bitwarden-cli
   ];
+
+  services = {
+    gnome-keyring = {
+      enable = true;
+      components = [ "pkcs11" "secrets" "ssh" ];
+    };
+
+    ssh-agent.enable = false;
+  };
 
   services.podman = lib.mkIf (config.virtualisation.podman.enable or false) {
     settings.policy = {
