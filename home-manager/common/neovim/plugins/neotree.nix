@@ -93,51 +93,6 @@
       width = 40;
       mappingOptions = {
         noremap = true;
-        nowait = true;
-      };
-
-      mappings = {
-        "<space>" = {
-          command = "toggle_node";
-          nowait = false;
-        };
-        "<2-LeftMouse>" = "open";
-        "<cr>" = "open";
-        "<esc>" = "cancel";
-        "P" = {
-          command = "toggle_preview";
-          config = {
-            use_float = true;
-            use_image_nvim = true;
-          };
-        };
-        "l" = "focus_preview";
-        "s" = "open_split";
-        "v" = "open_vsplit";
-        "t" = "open_tabnew";
-        "w" = "open_with_window_picker";
-        "C" = "close_node";
-        "z" = "close_all_nodes";
-        "a" = {
-          command = "add";
-          config = {
-            show_path = "none";
-          };
-        };
-        "A" = "add_directory";
-        "d" = "delete";
-        "r" = "rename";
-        "y" = "copy_to_clipboard";
-        "x" = "cut_to_clipboard";
-        "p" = "paste_from_clipboard";
-        "c" = "copy";
-        "m" = "move";
-        "q" = "close_window";
-        "R" = "refresh";
-        "?" = "show_help";
-        "<" = "prev_source";
-        ">" = "next_source";
-        "i" = "show_file_details";
       };
     };
 
@@ -179,27 +134,6 @@
       groupEmptyDirs = false;
       hijackNetrwBehavior = "open_default";
       useLibuvFileWatcher = false;
-
-      window = {
-        mappings = {
-          "<bs>" = "navigate_up";
-          "." = "set_root";
-          "H" = "toggle_hidden";
-          "/" = "fuzzy_finder";
-          "D" = "fuzzy_finder_directory";
-          "#" = "fuzzy_sorter";
-          "f" = "filter_on_submit";
-          "<c-x>" = "clear_filter";
-          "[g" = "prev_git_modified";
-          "]g" = "next_git_modified";
-          "o" = {
-            command = "system_open";
-          };
-          "Y" = {
-            command = "copy_selector";
-          };
-        };
-      };
     };
 
     # Buffers settings
@@ -209,38 +143,115 @@
         leaveDirsOpen = false;
       };
       groupEmptyDirs = true;
+    };
 
+    # New settings structure for mappings
+    settings = {
+      # Main window mappings
       window = {
         mappings = {
-          "bd" = "buffer_delete";
-          "<bs>" = "navigate_up";
-          "." = "set_root";
-          "o" = {
-            command = "system_open";
+          "<space>" = {
+            command = "toggle_node";
+            nowait = false;
           };
-          "Y" = {
-            command = "copy_selector";
+          "<2-LeftMouse>" = "open";
+          "<cr>" = "open";
+          "<esc>" = "cancel";
+          "P" = {
+            command = "toggle_preview";
+            config = {
+              use_float = true;
+              use_image_nvim = true;
+            };
+          };
+          "l" = "focus_preview";
+          "s" = "open_split";
+          "v" = "open_vsplit";
+          "t" = "open_tabnew";
+          "w" = "open_with_window_picker";
+          "C" = "close_node";
+          "z" = "close_all_nodes";
+          "a" = {
+            command = "add";
+            config = {
+              show_path = "none";
+            };
+          };
+          "A" = "add_directory";
+          "d" = "delete";
+          "r" = "rename";
+          "y" = "copy_to_clipboard";
+          "x" = "cut_to_clipboard";
+          "p" = "paste_from_clipboard";
+          "c" = "copy";
+          "m" = "move";
+          "q" = "close_window";
+          "R" = "refresh";
+          "?" = "show_help";
+          "<" = "prev_source";
+          ">" = "next_source";
+          "i" = "show_file_details";
+        };
+      };
+
+      # Filesystem window mappings
+      filesystem = {
+        window = {
+          mappings = {
+            "<bs>" = "navigate_up";
+            "." = "set_root";
+            "H" = "toggle_hidden";
+            "/" = "fuzzy_finder";
+            "D" = "fuzzy_finder_directory";
+            "#" = "fuzzy_sorter";
+            "f" = "filter_on_submit";
+            "<c-x>" = "clear_filter";
+            "[g" = "prev_git_modified";
+            "]g" = "next_git_modified";
+            "o" = {
+              command = "system_open";
+            };
+            "Y" = {
+              command = "copy_selector";
+            };
           };
         };
       };
-    };
 
-    # Git status settings
-    gitStatus = {
-      window = {
-        mappings = {
-          "A" = "git_add_all";
-          "gu" = "git_unstage_file";
-          "ga" = "git_add_file";
-          "gr" = "git_revert_file";
-          "gc" = "git_commit";
-          "gp" = "git_push";
-          "gg" = "git_commit_and_push";
-          "o" = {
-            command = "system_open";
+      # Buffers window mappings
+      buffers = {
+        window = {
+          mappings = {
+            "bd" = "buffer_delete";
+            "<bs>" = "navigate_up";
+            "." = "set_root";
+            "o" = {
+              command = "system_open";
+            };
+            "Y" = {
+              command = "copy_selector";
+            };
           };
-          "Y" = {
-            command = "copy_selector";
+        };
+      };
+
+      # Git status window mappings (note: snake_case)
+      git_status = {
+        window = {
+          mappings = {
+            "A" = "git_add_all";
+            "gu" = "git_unstage_file";
+            "ga" = "git_add_file";
+            "gr" = "git_revert_file";
+            "gc" = "git_commit";
+            "gp" = "git_push";
+            "gg" = "git_commit_and_push";
+            "o" = {
+              command = "system_open";
+            };
+            "Y" = {
+              command = "copy_selector";
+            };
           };
         };
       };
