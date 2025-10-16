@@ -179,14 +179,16 @@
 
     lspsaga = {
       enable = true;
-      hover = {
-        maxWidth = 0.6;
-      };
-      outline = {
-        winWidth = 30;
-        keys = {
-          jump = "o";
-          quit = "q";
+      settings = {
+        hover = {
+          max_width = 0.6;
+        };
+        outline = {
+          win_width = 30;
+          keys = {
+            jump = "o";
+            quit = "q";
+          };
         };
       };
     };

@@ -33,7 +33,7 @@
                 inherit inputs username;
               };
               modules = [
-                nixvim.homeManagerModules.nixvim
+                nixvim.homeModules.nixvim
               ] ++ modules;
             };
 
@@ -59,7 +59,7 @@
                   home-manager.extraSpecialArgs = {
                     inherit pkgs system inputs username hostname pkgsStable;
                   };
-                  home-manager.sharedModules = [ nixvim.homeManagerModules.nixvim ];
+                  home-manager.sharedModules = [ nixvim.homeModules.nixvim ];
                 }
               ] ++ modules;
             };

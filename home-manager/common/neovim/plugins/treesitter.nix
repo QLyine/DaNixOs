@@ -142,23 +142,25 @@
     # Rainbow delimiters
     rainbow-delimiters = {
       enable = true;
-      strategy = {
-        default = "global";
-        vim = "local";
+      settings = {
+        strategy = {
+          default = "";
+          vim = "local";
+        };
+        query = {
+          default = "";
+          lua = "rainbow-blocks";
+        };
+        highlight = [
+          "RainbowDelimiterRed"
+          "RainbowDelimiterYellow"
+          "RainbowDelimiterBlue"
+          "RainbowDelimiterOrange"
+          "RainbowDelimiterGreen"
+          "RainbowDelimiterViolet"
+          "RainbowDelimiterCyan"
+        ];
       };
-      query = {
-        default = "rainbow-delimiters";
-        lua = "rainbow-blocks";
-      };
-      highlight = [
-        "RainbowDelimiterRed"
-        "RainbowDelimiterYellow"
-        "RainbowDelimiterBlue"
-        "RainbowDelimiterOrange"
-        "RainbowDelimiterGreen"
-        "RainbowDelimiterViolet"
-        "RainbowDelimiterCyan"
-      ];
     };
 
     # Treesitter refactor

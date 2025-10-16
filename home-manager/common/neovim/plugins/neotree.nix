@@ -2,151 +2,151 @@
   programs.nixvim.plugins.neo-tree = {
     enable = true;
 
-    # Close if last window
-    closeIfLastWindow = true;
+    settings = {
+      # Close if last window
+      close_if_last_window = true;
 
-    # Popup border style
-    popupBorderStyle = "rounded";
+      # Popup border style
+      popup_border_style = "rounded";
 
-    # Enable diagnostics
-    enableDiagnostics = true;
+      # Enable diagnostics
+      enable_diagnostics = true;
 
-    # Enable git status
-    enableGitStatus = true;
+      # Enable git status
+      enable_git_status = true;
 
-    # Enable modified markers
-    enableModifiedMarkers = true;
+      # Enable modified markers
+      enable_modified_markers = true;
 
-    # Enable refresh on write
-    enableRefreshOnWrite = true;
+      # Enable refresh on write
+      enable_refresh_on_write = true;
 
-    # Git status async
-    gitStatusAsync = true;
+      # Git status async
+      git_status_async = true;
 
-    # Log level
-    logLevel = "info";
+      # Log level
+      log_level = "info";
 
-    # Log to file
-    logToFile = false;
+      # Log to file
+      log_to_file = false;
 
-    # Sort case insensitive
-    sortCaseInsensitive = false;
+      # Sort case insensitive
+      sort_case_insensitive = false;
 
-    # Default component configs
-    defaultComponentConfigs = {
-      container = {
-        enableCharacterFade = true;
+      # Default component configs
+      default_component_configs = {
+        container = {
+          enable_character_fade = true;
+        };
+
+        indent = {
+          indent_size = 2;
+          padding = 1;
+          with_markers = true;
+          indent_marker = "│";
+          last_indent_marker = "└";
+          highlight = "NeoTreeIndentMarker";
+          with_expanders = null;
+          expander_collapsed = "";
+          expander_expanded = "";
+          expander_highlight = "NeoTreeExpander";
+        };
+
+        icon = {
+          folder_closed = "";
+          folder_open = "";
+          folder_empty = "󰜌";
+          folder_empty_open = "󰜌";
+          default = "*";
+          highlight = "NeoTreeFileIcon";
+        };
+
+        modified = {
+          symbol = "[+]";
+          highlight = "NeoTreeModified";
+        };
+
+        name = {
+          trailing_slash = false;
+          use_git_status_colors = true;
+          highlight = "NeoTreeFileName";
+        };
+
+        git_status = {
+          symbols = {
+            added = "✚";
+            modified = "";
+            deleted = "✖";
+            renamed = "󰁕";
+            untracked = "";
+            ignored = "";
+            unstaged = "󰄱";
+            staged = "";
+            conflict = "";
+          };
+        };
+
       };
 
-      indent = {
-        indentSize = 2;
-        padding = 1;
-        withMarkers = true;
-        indentMarker = "│";
-        lastIndentMarker = "└";
-        highlight = "NeoTreeIndentMarker";
-        withExpanders = null;
-        expanderCollapsed = "";
-        expanderExpanded = "";
-        expanderHighlight = "NeoTreeExpander";
-      };
-
-      icon = {
-        folderClosed = "";
-        folderOpen = "";
-        folderEmpty = "󰜌";
-        folderEmptyOpen = "󰜌";
-        default = "*";
-        highlight = "NeoTreeFileIcon";
-      };
-
-      modified = {
-        symbol = "[+]";
-        highlight = "NeoTreeModified";
-      };
-
-      name = {
-        trailingSlash = false;
-        useGitStatusColors = true;
-        highlight = "NeoTreeFileName";
-      };
-
-      gitStatus = {
-        symbols = {
-          added = "✚";
-          modified = "";
-          deleted = "✖";
-          renamed = "󰁕";
-          untracked = "";
-          ignored = "";
-          unstaged = "󰄱";
-          staged = "";
-          conflict = "";
+      # Window settings
+      window = {
+        position = "left";
+        width = 40;
+        mapping_options = {
+          noremap = true;
         };
       };
 
-    };
+      # Nesting rules
+      nesting_rules = { };
 
-    # Window settings
-    window = {
-      position = "left";
-      width = 40;
-      mappingOptions = {
-        noremap = true;
-      };
-    };
+      # Filesystem settings
+      filesystem = {
+        filtered_items = {
+          visible = false;
+          hide_dotfiles = true;
+          hide_gitignored = true;
+          hide_hidden = true;
+          hide_by_name = [
+            ".DS_Store"
+            "thumbs.db"
+          ];
+          hide_by_pattern = [
+            "*.meta"
+            "*/src/*/tsconfig.json"
+          ];
+          always_show = [
+            ".gitignored"
+          ];
+          never_show = [
+            ".DS_Store"
+            "thumbs.db"
+          ];
+          never_show_by_pattern = [
+            ".null-ls_*"
+          ];
+        };
 
-    # Nesting rules
-    nestingRules = { };
+        follow_current_file = {
+          enabled = true;
+          leave_dirs_open = true;
+        };
 
-    # Filesystem settings
-    filesystem = {
-      filteredItems = {
-        visible = false;
-        hideDotfiles = true;
-        hideGitignored = true;
-        hideHidden = true;
-        hideByName = [
-          ".DS_Store"
-          "thumbs.db"
-        ];
-        hideByPattern = [
-          "*.meta"
-          "*/src/*/tsconfig.json"
-        ];
-        alwaysShow = [
-          ".gitignored"
-        ];
-        neverShow = [
-          ".DS_Store"
-          "thumbs.db"
-        ];
-        neverShowByPattern = [
-          ".null-ls_*"
-        ];
-      };
-
-      followCurrentFile = {
-        enabled = true;
-        leaveDirsOpen = true;
+        group_empty_dirs = false;
+        hijack_netrw_behavior = "open_default";
+        use_libuv_file_watcher = false;
       };
 
-      groupEmptyDirs = false;
-      hijackNetrwBehavior = "open_default";
-      useLibuvFileWatcher = false;
-    };
-
-    # Buffers settings
-    buffers = {
-      followCurrentFile = {
-        enabled = true;
-        leaveDirsOpen = false;
+      # Buffers settings
+      buffers = {
+        follow_current_file = {
+          enabled = true;
+          leave_dirs_open = false;
+        };
+        group_empty_dirs = true;
       };
-      groupEmptyDirs = true;
-    };
 
-    # New settings structure for mappings
-    settings = {
+      # Mappings structure
       # Main window mappings
       window = {
         mappings = {
