@@ -46,6 +46,7 @@
         "vim" = "nvim";
         "bpy" = "bat --paging=always --language=yaml";
         "bpj" = "bat --paging=always --language=json";
+        "gs" = "git status";
       };
       sessionVariables = {
         EDITOR = "nvim";
@@ -69,7 +70,6 @@
       enable = true;
       plugins = [
         "git"
-        "sudo"
         "docker"
         "podman"
         "history"
