@@ -157,5 +157,6 @@
     nodejs_24
     krew
     nvimpager
+    gemini-cli
   ];
 }
