@@ -61,6 +61,9 @@
           { name = "bonnefoa/kubectl-fzf"; }
         ];
       };
+      initContent = ''
+        source ${./zsh-functions/gcm.zsh}
+      '';
     };
     zsh.oh-my-zsh = {
       enable = true;
