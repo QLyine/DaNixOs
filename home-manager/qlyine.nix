@@ -2,6 +2,8 @@
 
 {
   imports = [
+    inputs.factory-cli-nix.homeManagerModules.default
+    { services.factory-cli.enable = true; }
     ./common/neovim
     ./common/cli
   ] ++ (if hostname == "obelix" then [
