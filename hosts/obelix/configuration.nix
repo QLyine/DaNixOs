@@ -137,6 +137,10 @@
     gnome-keyring
     efibootmgr
     seahorse
+    zerotierone
+    #inetutils
+    #cope
+    #nmap
   ];
 
   #services.gnome.gnome-keyring.enable = true;
@@ -208,4 +212,10 @@
   };
 
   services.fstrim.enable = true;
+
+
+  services.zerotierone = {
+    enable = true;
+    joinNetworks = [ "272f5eae166fb926" ];
+  };
 }
