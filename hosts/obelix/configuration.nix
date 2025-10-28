@@ -138,9 +138,9 @@
     efibootmgr
     seahorse
     zerotierone
-    #inetutils
+    inetutils
+    nmap
     #cope
-    #nmap
   ];
 
   #services.gnome.gnome-keyring.enable = true;
