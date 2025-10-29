@@ -17,9 +17,6 @@
   programs = {
     zsh = {
       enable = true;
-      #sessionVariables = {
-      #  SSH_AUTH_SOCK = "/run/user/1000/keyring/ssh";
-      #};
     };
     zsh.oh-my-zsh = {
       enable = true;
@@ -45,12 +42,12 @@
   home.file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
 
   services = {
-    gnome-keyring = {
-      enable = true;
-      components = [ "pkcs11" "secrets" "ssh" ];
-    };
+    #gnome-keyring = {
+    #  enable = true;
+    #  components = [ "pkcs11" "secrets" "ssh" ];
+    #};
 
-    ssh-agent.enable = false;
+    ssh-agent.enable = true;
   };
 
   services.podman = lib.mkIf (config.virtualisation.podman.enable or false) {

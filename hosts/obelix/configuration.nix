@@ -143,7 +143,7 @@
     #cope
   ];
 
-  #services.gnome.gnome-keyring.enable = true;
+  services.gnome.gnome-keyring.enable = true;
 
   # Ensure PAM integration for unlocking keyring on login
   security.pam.services.gdm.enableGnomeKeyring = true;
