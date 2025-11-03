@@ -26,7 +26,6 @@
               pkgs = import inputs.nixpkgs {
                 inherit system;
                 config.allowUnfree = true;
-                overlays = [ inputs.factory-cli-nix.overlays.default ];
               };
             in
             home-manager.lib.homeManagerConfiguration {
@@ -35,12 +34,7 @@
                 inherit inputs username;
               };
               modules = [
-                { nixpkgs.overlays = [ inputs.factory-cli-nix.overlays.default ]; }
                 nixvim.homeModules.nixvim
-                factory-cli-nix.homeManagerModules.default
-                {
-                  services.factory-cli.enable = true;
-                }
               ] ++ modules;
             };
 
