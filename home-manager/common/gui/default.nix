@@ -56,7 +56,6 @@
     settings = {
       font-family = "JetBrainsMono Nerd Font";
       font-size = 12;
-      theme = "OneHalfDark";
     };
     enableZshIntegration = true;
   };

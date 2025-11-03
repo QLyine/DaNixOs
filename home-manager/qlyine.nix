@@ -2,6 +2,8 @@
 
 {
   imports = [
+    inputs.factory-cli-nix.homeManagerModules.default
+    { services.factory-cli.enable = true; }
     ./common/neovim
     ./common/cli
   ] ++ (if hostname == "obelix" then [
@@ -36,7 +38,11 @@
 
   home.packages = with pkgs; [
     bitwarden-cli
+    ripgrep
   ];
+
+  # Create symlinks in ~/.factory/bin
+  home.file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
 
   services = {
     gnome-keyring = {

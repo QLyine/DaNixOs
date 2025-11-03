@@ -12,9 +12,10 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    factory-cli-nix.url = "github:GutMutCode/factory-cli-nix";
   };
 
-  outputs = inputs@{ self, flake-parts, nixpkgs, nixpkgs-2505, home-manager, nixvim, ... }:
+  outputs = inputs@{ self, flake-parts, nixpkgs, nixpkgs-2505, home-manager, nixvim, factory-cli-nix, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" ];
 
@@ -25,6 +26,7 @@
               pkgs = import inputs.nixpkgs {
                 inherit system;
                 config.allowUnfree = true;
+                overlays = [ inputs.factory-cli-nix.overlays.default ];
               };
             in
             home-manager.lib.homeManagerConfiguration {
@@ -33,7 +35,12 @@
                 inherit inputs username;
               };
               modules = [
+                { nixpkgs.overlays = [ inputs.factory-cli-nix.overlays.default ]; }
                 nixvim.homeModules.nixvim
+                factory-cli-nix.homeManagerModules.default
+                {
+                  services.factory-cli.enable = true;
+                }
               ] ++ modules;
             };
 
@@ -42,6 +49,7 @@
               pkgs = import inputs.nixpkgs {
                 inherit system;
                 config.allowUnfree = true;
+                overlays = [ inputs.factory-cli-nix.overlays.default ];
               };
               pkgsStable = import inputs.nixpkgs-2505 {
                 inherit system;
@@ -51,6 +59,7 @@
             nixpkgs.lib.nixosSystem {
               inherit system;
               modules = [
+                { nixpkgs.overlays = [ inputs.factory-cli-nix.overlays.default ]; }
                 home-manager.nixosModules.home-manager
                 {
                   home-manager.useUserPackages = true;
