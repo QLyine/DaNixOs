@@ -11,6 +11,8 @@
   home.stateVersion = "25.11"; # Set to your current Nixpkgs version or a preferred starting point
 
   imports = [
+    inputs.factory-cli-nix.homeManagerModules.default
+    { services.factory-cli.enable = true; }
     ./common/cli
     ./common/neovim
   ];

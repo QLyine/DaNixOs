@@ -26,6 +26,7 @@
               pkgs = import inputs.nixpkgs {
                 inherit system;
                 config.allowUnfree = true;
+                overlays = [ inputs.factory-cli-nix.overlays.default ];
               };
             in
             home-manager.lib.homeManagerConfiguration {
