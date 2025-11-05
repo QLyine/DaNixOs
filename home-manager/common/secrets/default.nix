@@ -4,100 +4,16 @@ with lib;
 
 let
   # Path to secrets directory
-  secretsDir = toString ../.. + "/secrets";
-
-  # Function to read a secret from an encrypted file
-  readSecret = secretFile: key: let
-    fullSecretPath = "${secretsDir}/${secretFile}";
-  in pkgs.writeShellScriptBin "read-${builtins.replaceStrings ["." "/" "-"] ["_" "_" "_"] key}" ''
-    export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
-
-    if [ ! -f "${fullSecretPath}" ]; then
-      echo "Error: Secret file ${fullSecretPath} not found" >&2
-      exit 1
-    fi
-
-    # Decrypt the secret file and extract the key
-    ${pkgs.sops}/bin/sops -d "${fullSecretPath}" | grep "^${key}:" | cut -d':' -f2- | sed 's/^ *//' | tr -d '"'
-  '';
-
-  # Function to create a script that exports secrets as environment variables
-  exportSecrets = secretFile: keys: pkgs.writeShellScriptBin "export-${builtins.replaceStrings ["." "/"] ["_" "_"] secretFile}" ''
-    export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
-
-    ${concatMapStringsSep "\n" (key: ''
-      export ${toUpper (builtins.replaceStrings ["-"] ["_"] key)}="$(${pkgs.sops}/bin/sops -d "${secretsDir}/${secretFile}" | grep "^${key}:" | cut -d':' -f2- | sed 's/^ *//' | tr -d '"')"
-    '') keys}
-  '';
-
-  # Function to create a systemd user service that makes secrets available
-  secretService = secretFile: serviceConfig: {
-    Unit = {
-      Description = "Secret provider for ${secretFile}";
-      After = [ "graphical-session-pre.target" ];
-      PartOf = [ "graphical-session.target" ];
-    };
-
-    Service = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = toString (pkgs.writeShellScript "secret-service-${builtins.replaceStrings ["." "/"] ["_" "_"] secretFile}" ''
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
-
-        ${concatMapStringsSep "\n" (key: ''
-          ${if serviceConfig.environmentVar then ''
-            export ${toUpper (builtins.replaceStrings ["-"] ["_"] key)}="$(${pkgs.sops}/bin/sops -d "${secretsDir}/${secretFile}" | grep "^${key}:" | cut -d':' -f2- | sed 's/^ *//' | tr -d '"')"
-          '' else ''
-            echo "${toUpper (builtins.replaceStrings ["-"] ["_"] key)}=$(${pkgs.sops}/bin/sops -d "${secretsDir}/${secretFile}" | grep "^${key}:" | cut -d':' -f2- | sed 's/^ *//' | tr -d '"')" >> $HOME/.config/secrets/environment
-          ''}
-        '') serviceConfig.keys}
-
-        ${optionalString serviceConfig.runScript ''
-          ${serviceConfig.runScript}
-        ''}
-      '');
-    };
-
-    Install.WantedBy = [ "graphical-session.target" ];
-  };
+  secretsDir = "${config.home.homeDirectory}/.dotfiles/secrets";
 
 in {
   options.secrets = {
-    enable = mkEnableOption "SOPS secret management";
+    enable = mkEnableOption "SOPS secret management with shell integration";
 
     defaultSecretsFile = mkOption {
       type = types.str;
       default = "user/secrets.d/api-keys.yaml";
       description = "Default secrets file to use";
-    };
-
-    environmentFile = mkOption {
-      type = types.str;
-      default = "$HOME/.config/secrets/environment";
-      description = "File where secrets will be exported as environment variables";
-    };
-
-    secrets = mkOption {
-      type = types.attrsOf (types.submodule ({ name, ... }: {
-        options = {
-          file = mkOption {
-            type = types.str;
-            description = "Path to the encrypted secrets file";
-          };
-          keys = mkOption {
-            type = types.listOf types.str;
-            default = [];
-            description = "List of keys to extract from the secrets file";
-          };
-          asEnvironment = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to export these secrets as environment variables";
-          };
-        };
-      }));
-      default = {};
-      description = "Secrets configuration";
     };
   };
 
@@ -105,36 +21,46 @@ in {
     # Ensure required packages are available
     home.packages = with pkgs; [
       sops
-      yq
-    ] ++ (mapAttrsToList (name: secretConfig:
-      readSecret secretConfig.file (head secretConfig.keys)
-    ) config.secrets.secrets) ++ (mapAttrsToList (name: secretConfig:
-      mkIf secretConfig.asEnvironment (exportSecrets secretConfig.file secretConfig.keys)
-    ) config.secrets.secrets);
-
-    # Create the secrets directory for environment file
-    home.file.".config/secrets/.keep".text = "";
-
-    # Create systemd user services for secrets
-    systemd.user.services = mapAttrs' (name: secretConfig:
-      mkIf secretConfig.asEnvironment {
-        name = "secrets-${builtins.replaceStrings ["." "/"] ["_" "_"] name}";
-        value = secretService secretConfig.file {
-          keys = secretConfig.keys;
-          environmentVar = true;
-        };
-      }
-    ) config.secrets.secrets;
+    ];
 
     # Add shell integration for secrets
-    programs.zsh.initExtra = mkIf config.programs.zsh.enable ''
+    programs.zsh.initContent = mkIf config.programs.zsh.enable ''
       # Helper function to quickly read a secret
       secret() {
-        local secret_file="''${1:-${config.secrets.defaultSecretsFile}}"
-        local key="$2"
+        local secret_file="${config.secrets.defaultSecretsFile}"
+        local key=""
+        local OPTIND=1
+
+        while getopts ":f:s:h" opt; do
+          case "$opt" in
+            f) secret_file="$OPTARG" ;;
+            s) key="$OPTARG" ;;
+            h)
+              echo "Usage: secret [-f file] -s key"
+              echo "       secret [key]"
+              echo "       secret [file] [key]"
+              echo "Reads a single secret value from a SOPS-encrypted YAML file."
+              echo "Defaults: file='${config.secrets.defaultSecretsFile}'"
+              return 0
+              ;;
+            \?) echo "Invalid option: -$OPTARG" ; return 1 ;;
+            :) echo "Option -$OPTARG requires an argument" ; return 1 ;;
+          esac
+        done
+        shift $((OPTIND - 1))
+
+        # Backward compatibility for positional args
+        if [ -z "$key" ]; then
+          if [ "$#" -eq 1 ]; then
+            key="$1"
+          elif [ "$#" -eq 2 ]; then
+            secret_file="$1"
+            key="$2"
+          fi
+        fi
 
         if [ -z "$key" ]; then
-          echo "Usage: secret [secret_file] key"
+          echo "Usage: secret [-f file] -s key"
           return 1
         fi
 
@@ -143,13 +69,56 @@ in {
 
       # List all available secrets in a file
       list-secrets() {
-        local secret_file="''${1:-${config.secrets.defaultSecretsFile}}"
+        local secret_file="${config.secrets.defaultSecretsFile}"
+        local OPTIND=1
+
+        while getopts ":f:h" opt; do
+          case "$opt" in
+            f) secret_file="$OPTARG" ;;
+            h)
+              echo "Usage: list-secrets [-f file]"
+              echo "Lists keys in a SOPS-encrypted YAML file."
+              echo "Defaults: file='${config.secrets.defaultSecretsFile}'"
+              return 0
+              ;;
+            \?) echo "Invalid option: -$OPTARG" ; return 1 ;;
+            :) echo "Option -$OPTARG requires an argument" ; return 1 ;;
+          esac
+        done
+        shift $((OPTIND - 1))
+
+        # Backward compatibility for positional arg
+        if [ "$#" -ge 1 ]; then
+          secret_file="$1"
+        fi
+
         ${pkgs.sops}/bin/sops -d "${secretsDir}/$secret_file" | grep -v '^sops:' | grep -v '^#' | grep ':' | cut -d':' -f1 | sed 's/^ *//'
       }
 
       # Export all secrets from default file
       export-secrets() {
-        local secret_file="''${1:-${config.secrets.defaultSecretsFile}}"
+        local secret_file="${config.secrets.defaultSecretsFile}"
+        local OPTIND=1
+
+        while getopts ":f:h" opt; do
+          case "$opt" in
+            f) secret_file="$OPTARG" ;;
+            h)
+              echo "Usage: export-secrets [-f file]"
+              echo "Decrypts a SOPS-encrypted YAML and exports keys as env vars."
+              echo "Defaults: file='${config.secrets.defaultSecretsFile}'"
+              return 0
+              ;;
+            \?) echo "Invalid option: -$OPTARG" ; return 1 ;;
+            :) echo "Option -$OPTARG requires an argument" ; return 1 ;;
+          esac
+        done
+        shift $((OPTIND - 1))
+
+        # Backward compatibility for positional arg
+        if [ "$#" -ge 1 ]; then
+          secret_file="$1"
+        fi
 
         if [ -f "${secretsDir}/$secret_file" ]; then
           while IFS=':' read -r key value; do
@@ -169,6 +138,51 @@ in {
           echo "Secret file $secret_file not found"
           return 1
         fi
+      }
+
+      # List all secret files under user/secrets.d/
+      list-secret-files() {
+        local dir="${secretsDir}/user/secrets.d"
+        local absolute=0
+        local OPTIND=1
+
+        while getopts ":d:ha" opt; do
+          case "$opt" in
+            d) dir="$OPTARG" ;;
+            a) absolute=1 ;;
+            h)
+              echo "Usage: list-secret-files [-d dir] [-a]"
+              echo "Lists secret files under a directory (default user/secrets.d)."
+              echo "-a: print absolute paths (default prints paths relative to '${secretsDir}')"
+              echo "Defaults: dir='${secretsDir}/user/secrets.d'"
+              return 0
+              ;;
+            \?) echo "Invalid option: -$OPTARG" ; return 1 ;;
+            :) echo "Option -$OPTARG requires an argument" ; return 1 ;;
+          esac
+        done
+        shift $((OPTIND - 1))
+
+        # Backward compatibility: allow optional positional dir
+        if [ "$#" -ge 1 ]; then
+          dir="$1"
+        fi
+
+        if [ ! -d "$dir" ]; then
+          echo "Directory $dir not found"
+          return 1
+        fi
+
+        # Print sorted list of yaml/yml files
+        command -v find >/dev/null 2>&1 || { echo "find command not available"; return 1; }
+        find "$dir" -maxdepth 1 -type f \( -name "*.yaml" -o -name "*.yml" \) -print | sort | while IFS= read -r f; do
+          if [ "$absolute" -eq 1 ]; then
+            echo "$f"
+          else
+            # print path relative to ${secretsDir}
+            echo "''${f#${secretsDir}/}"
+          fi
+        done
       }
     '';
   };

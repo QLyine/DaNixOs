@@ -5,6 +5,7 @@
     ./atuin.nix
     ./zellij.nix
     ./claude.nix
+    ../secrets
   ];
 
   programs = {
@@ -136,6 +137,9 @@
       };
     };
   };
+
+  # Enable secrets management with shell integration
+  secrets.enable = true;
 
   home.packages = with pkgs; [
     bat
