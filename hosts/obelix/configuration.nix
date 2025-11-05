@@ -134,36 +134,32 @@
     podman-tui
     podman-compose
     git
-    gnome-keyring
     efibootmgr
-    seahorse
     zerotierone
     inetutils
     nmap
-    #cope
+    spotify
   ];
 
-  services.gnome.gnome-keyring.enable = true;
+  #services.gnome.gnome-keyring.enable = true;
 
-  # Ensure PAM integration for unlocking keyring on login
-  security.pam.services.gdm.enableGnomeKeyring = true;
-  security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
-  security.pam.services.login.enableGnomeKeyring = true;
+  ## Ensure PAM integration for unlocking keyring on login
+  #security.pam.services.gdm.enableGnomeKeyring = true;
+  #security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
+  #security.pam.services.login.enableGnomeKeyring = true;
 
   programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = false;
-    pinentryPackage = pkgs.pinentry-gnome3;
-  };
-
-  programs.seahorse.enable = true;
+  #programs.gnupg.agent = {
+  #  enable = true;
+  #  enableSSHSupport = true;
+  #  pinentryPackage = pkgs.pinentry-gnome3;
+  #};
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  system.stateVersion = "24.11";
+  #system.stateVersion = "unstable";
 
   hardware.graphics.enable = true;
   hardware.nvidia.modesetting.enable = true;

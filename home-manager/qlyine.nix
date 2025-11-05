@@ -6,6 +6,7 @@
     { services.factory-cli.enable = true; }
     ./common/neovim
     ./common/cli
+    ./common/secrets
   ] ++ (if hostname == "obelix" then [
     ./hyprland
     ./common/gui
@@ -31,6 +32,20 @@
       userName = "qlyine";
       userEmail = "dffsantos@proton.me";
     };
+    password-store = {
+      enable = true;
+    };
+    gpg = {
+      enable = true;
+    };
+    keychain = {
+      enable = true;
+      agents = [ "gpg" "ssh" ];
+      enableZshIntegration = true;
+      enableBashIntegration = true;
+      keys = [ "id_ed25519" ];
+      extraFlags = [ "--quiet" ];
+    };
   };
 
   home.packages = with pkgs; [
@@ -42,12 +57,6 @@
   home.file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
 
   services = {
-    #gnome-keyring = {
-    #  enable = true;
-    #  components = [ "pkcs11" "secrets" "ssh" ];
-    #};
-
-    ssh-agent.enable = true;
   };
 
   services.podman = lib.mkIf (config.virtualisation.podman.enable or false) {
@@ -57,6 +66,28 @@
         "docker-daemon" = {
           "" = [{ type = "insecureAcceptAnything"; }];
         };
+      };
+    };
+  };
+
+  # Secret management with SOPS
+  secrets = {
+    enable = true;
+    defaultSecretsFile = "user/secrets.d/api-keys.yaml";
+
+    secrets = {
+      api-keys = {
+        file = "user/secrets.d/api-keys.yaml";
+        keys = [
+          "github_token"
+          "openai_api_key"
+          "anthropic_api_key"
+          "aws_access_key_id"
+          "aws_secret_access_key"
+          "docker_hub_token"
+          "some_service_api_key"
+        ];
+        asEnvironment = true;
       };
     };
   };

@@ -13,9 +13,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     factory-cli-nix.url = "github:GutMutCode/factory-cli-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, flake-parts, nixpkgs, nixpkgs-2505, home-manager, nixvim, factory-cli-nix, ... }:
+  outputs = inputs@{ self, flake-parts, nixpkgs, nixpkgs-2505, home-manager, nixvim, factory-cli-nix, sops-nix, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" ];
 

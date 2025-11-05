@@ -1,0 +1,25 @@
+# Private keys - never commit these
+secrets/keys/
+*.key
+*.age
+
+# Results files (from direnv)
+.result
+.result-*
+
+# Editor temp files
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Nix build outputs
+/nix-result-*

@@ -19,7 +19,7 @@
       exec-once = [
         "waybar"
         "hyprpaper"
-        "eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)"
+        # "eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)"  # Commented out - using system service
       ];
       input = {
         kb_layout = "pt";

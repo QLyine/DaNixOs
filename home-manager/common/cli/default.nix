@@ -158,5 +158,7 @@
     krew
     nvimpager
     gemini-cli
+    age
+    sops
   ];
 }

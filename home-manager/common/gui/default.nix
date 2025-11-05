@@ -16,6 +16,8 @@
     wl-clipboard
     obsidian
     pkgsStable.plex-desktop
+    gscreenshot
+    pkgs.gnome-screenshot
   ];
 
   home.pointerCursor = {
