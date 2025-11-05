@@ -28,8 +28,10 @@
     };
     git = {
       enable = true;
-      userName = "qlyine";
-      userEmail = "dffsantos@proton.me";
+      settings = {
+        user.name = "qlyine";
+        user.email = "dffsantos@proton.me";
+      };
     };
     password-store = {
       enable = true;
@@ -74,20 +76,12 @@
     defaultSopsFile = ../secrets/user/secrets.d/api-keys.yaml;
     defaultSopsFormat = "yaml";
     age = {
-      keyFile = "/home/qlyine/.config/sops/age/keys.txt";
+      keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
       generateKey = false;
     };
 
-    # Define secrets as environment variables
-    secrets = {
-      github_token = {};
-      openai_api_key = {};
-      anthropic_api_key = {};
-      aws_access_key_id = {};
-      aws_secret_access_key = {};
-      docker_hub_token = {};
-      some_service_api_key = {};
-    };
+    # Define secrets (will be handled by individual modules)
+    secrets = {};
   };
 
   home.stateVersion = "24.11";

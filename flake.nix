@@ -68,7 +68,10 @@
                   home-manager.extraSpecialArgs = {
                     inherit pkgs system inputs username hostname pkgsStable;
                   };
-                  home-manager.sharedModules = [ nixvim.homeModules.nixvim ];
+                  home-manager.sharedModules = [ 
+                    nixvim.homeModules.nixvim 
+                    inputs.sops-nix.homeManagerModules.sops
+                  ];
                 }
               ] ++ modules;
             };
