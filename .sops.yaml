@@ -1,15 +1,26 @@
 # SOPS configuration for age encryption
 # This file tells SOPS which keys to use for encryption/decryption
 
+# Define anchors for public keys to avoid repetition
+# Both keys can decrypt secrets - original user key and new host key
+x-age-keys: &age-keys
+  age:
+    - age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey  # Original user key
+    - age1qyjzdl6m5w7hvq55rghwzydvuckuc0gjwc0u339dc73p0jztqytqk78tsv  # Host key
+
 creation_rules:
   # Rule for all YAML files in secrets directory
   - path_regex: secrets/.*\.yaml$
-    age: age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey
+    <<: *age-keys
 
   # Rule for all JSON files in secrets directory
   - path_regex: secrets/.*\.json$
-    age: age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey
+    <<: *age-keys
 
   # Rule for all ENV files in secrets directory
   - path_regex: secrets/.*\.env$
-    age: age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey
+    <<: *age-keys
+
+  # You can easily add new file types or additional rules:
+  # - path_regex: secrets/.*\.txt$
+  #   <<: *age-keys

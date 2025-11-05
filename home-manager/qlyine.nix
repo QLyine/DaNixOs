@@ -6,7 +6,6 @@
     { services.factory-cli.enable = true; }
     ./common/neovim
     ./common/cli
-    ./common/secrets
   ] ++ (if hostname == "obelix" then [
     ./hyprland
     ./common/gui
@@ -70,25 +69,24 @@
     };
   };
 
-  # Secret management with SOPS
-  secrets = {
-    enable = true;
-    defaultSecretsFile = "user/secrets.d/api-keys.yaml";
+  # SOPS-nix configuration
+  sops = {
+    defaultSopsFile = ../secrets/user/secrets.d/api-keys.yaml;
+    defaultSopsFormat = "yaml";
+    age = {
+      keyFile = "/home/qlyine/.config/sops/age/keys.txt";
+      generateKey = false;
+    };
 
+    # Define secrets as environment variables
     secrets = {
-      api-keys = {
-        file = "user/secrets.d/api-keys.yaml";
-        keys = [
-          "github_token"
-          "openai_api_key"
-          "anthropic_api_key"
-          "aws_access_key_id"
-          "aws_secret_access_key"
-          "docker_hub_token"
-          "some_service_api_key"
-        ];
-        asEnvironment = true;
-      };
+      github_token = {};
+      openai_api_key = {};
+      anthropic_api_key = {};
+      aws_access_key_id = {};
+      aws_secret_access_key = {};
+      docker_hub_token = {};
+      some_service_api_key = {};
     };
   };
 

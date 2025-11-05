@@ -10,7 +10,7 @@ let
   readSecret = secretFile: key: let
     fullSecretPath = "${secretsDir}/${secretFile}";
   in pkgs.writeShellScriptBin "read-${builtins.replaceStrings ["." "/" "-"] ["_" "_" "_"] key}" ''
-    export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key.txt"
+    export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
 
     if [ ! -f "${fullSecretPath}" ]; then
       echo "Error: Secret file ${fullSecretPath} not found" >&2
@@ -23,7 +23,7 @@ let
 
   # Function to create a script that exports secrets as environment variables
   exportSecrets = secretFile: keys: pkgs.writeShellScriptBin "export-${builtins.replaceStrings ["." "/"] ["_" "_"] secretFile}" ''
-    export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key.txt"
+    export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
 
     ${concatMapStringsSep "\n" (key: ''
       export ${toUpper (builtins.replaceStrings ["-"] ["_"] key)}="$(${pkgs.sops}/bin/sops -d "${secretsDir}/${secretFile}" | grep "^${key}:" | cut -d':' -f2- | sed 's/^ *//' | tr -d '"')"
@@ -42,7 +42,7 @@ let
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = toString (pkgs.writeShellScript "secret-service-${builtins.replaceStrings ["." "/"] ["_" "_"] secretFile}" ''
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key.txt"
+        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
 
         ${concatMapStringsSep "\n" (key: ''
           ${if serviceConfig.environmentVar then ''
@@ -106,20 +106,14 @@ in {
     home.packages = with pkgs; [
       sops
       yq
-    ];
+    ] ++ (mapAttrsToList (name: secretConfig:
+      readSecret secretConfig.file (head secretConfig.keys)
+    ) config.secrets.secrets) ++ (mapAttrsToList (name: secretConfig:
+      mkIf secretConfig.asEnvironment (exportSecrets secretConfig.file secretConfig.keys)
+    ) config.secrets.secrets);
 
     # Create the secrets directory for environment file
     home.file.".config/secrets/.keep".text = "";
-
-    # Create helper scripts for reading secrets
-    home.packages = mapAttrsToList (name: secretConfig:
-      readSecret secretConfig.file (head secretConfig.keys)
-    ) config.secrets.secrets;
-
-    # Create export scripts for secrets that need to be environment variables
-    home.packages = mapAttrsToList (name: secretConfig:
-      mkIf secretConfig.asEnvironment (exportSecrets secretConfig.file secretConfig.keys)
-    ) config.secrets.secrets;
 
     # Create systemd user services for secrets
     systemd.user.services = mapAttrs' (name: secretConfig:
@@ -144,21 +138,21 @@ in {
           return 1
         fi
 
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key.txt"
+        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
         ${pkgs.sops}/bin/sops -d "${secretsDir}/$secret_file" | grep "^$key:" | cut -d':' -f2- | sed 's/^ *//' | tr -d '"'
       }
 
       # List all available secrets in a file
       list-secrets() {
         local secret_file="''${1:-${config.secrets.defaultSecretsFile}}"
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key.txt"
+        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
         ${pkgs.sops}/bin/sops -d "${secretsDir}/$secret_file" | grep -v '^sops:' | grep -v '^#' | grep ':' | cut -d':' -f1 | sed 's/^ *//'
       }
 
       # Export all secrets from default file
       export-secrets() {
         local secret_file="''${1:-${config.secrets.defaultSecretsFile}}"
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key.txt"
+        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
 
         if [ -f "${secretsDir}/$secret_file" ]; then
           while IFS=':' read -r key value; do

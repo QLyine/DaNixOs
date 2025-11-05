@@ -12,13 +12,20 @@ This repository uses [SOPS](https://github.com/mozilla/sops) with [age](https://
 
 ### 1. Set up your age key
 
-The age key is generated and stored in `secrets/keys/age-key.txt`. This file is **never committed** to Git.
+Age keys are generated and stored in `secrets/keys/`. These files are **never committed** to Git. The system supports multiple keys for different machines/users.
 
 ```bash
-# View your public key
-cat secrets/keys/age-key.txt
+# View your host-specific public key
+cat secrets/keys/age-key-host.txt
 
-# The public key should be: age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey
+# Example output:
+# # created: 2025-11-05T09:17:36Z
+# # public key: age1l6w6yuxrylqedd07f7n5hvhwch2cvq59qmv6gztr6mu6yj2qq4kstjn3dv
+# AGE-SECRET-KEY-1...
+
+# Current configured public keys:
+# - Original user key: age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey
+# - Host key: age1l6w6yuxrylqedd07f7n5hvhwch2cvq59qmv6gztr6mu6yj2qq4kstjn3dv
 ```
 
 ### 2. Edit secrets
@@ -133,7 +140,7 @@ secrets/
 sops -d secrets/user/secrets.d/api-keys.yaml
 
 # Encrypt an existing file
-sops --encrypt --age age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey plain-secrets.yaml > secrets/user/secrets.d/api-keys.yaml
+sops --encrypt --age age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey --age age1l6w6yuxrylqedd07f7n5hvhwch2cvq59qmv6gztr6mu6yj2qq4kstjn3dv plain-secrets.yaml > secrets/user/secrets.d/api-keys.yaml
 
 # Extract a specific key without decrypting the whole file
 sops -d --extract '["github_token"]' secrets/user/secrets.d/api-keys.yaml
@@ -147,9 +154,9 @@ For collaboration, you can add multiple age recipients:
 # Update .sops.yaml
 creation_rules:
   - path_regex: secrets/.*\.yaml$
-    age: |
-      age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey  # Your key
-      age1example...  # Collaborator's key
+    age:
+      - age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey  # Original user key
+      - age1l6w6yuxrylqedd07f7n5hvhwch2cvq59qmv6gztr6mu6yj2qq4kstjn3dv  # Host key
 ```
 
 ### Using with systemd User Services

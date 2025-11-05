@@ -4,6 +4,7 @@
   imports = [
     ./atuin.nix
     ./zellij.nix
+    ./claude.nix
   ];
 
   programs = {
@@ -51,6 +52,7 @@
       sessionVariables = {
         EDITOR = "nvim";
         TERM = "xterm-256color";
+        SOPS_AGE_KEY_FILE = "$HOME/.config/sops/age/keys.txt";
       };
       zplug = {
         enable = true;

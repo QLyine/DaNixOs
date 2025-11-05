@@ -45,6 +45,18 @@
     GOPRIVATE = "github.com/NBCUDTC/*,github.com/sky-uk/*,github.com-nbcudtc/*,github.com/nbcudtc/*";
   };
 
+  # SOPS-nix configuration
+  sops = {
+    defaultSopsFile = ../secrets/user/secrets.d/claude.yaml;
+    defaultSopsFormat = "yaml";
+    age = {
+      keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+      generateKey = false;
+    };
+
+    # Define secrets (will be handled by the claude.nix module)
+    secrets = {};
+  };
 
   home.packages = with pkgs; [
     home-manager

@@ -40,6 +40,7 @@
               };
               modules = [
                 nixvim.homeModules.nixvim
+                inputs.sops-nix.homeManagerModules.sops
               ] ++ modules;
             };
 
