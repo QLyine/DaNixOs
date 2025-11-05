@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1761499237,
-        "narHash": "sha256-RDRm1kd12blxWwStB32aJqtCEekN1wP3BD1yCFIvlF0=",
+        "lastModified": 1761782911,
+        "narHash": "sha256-DjBwW0Ry2Q3ZbkEU8a2ioNyZyFC8FPQEAmIi1iKhpCE=",
         "owner": "GutMutCode",
         "repo": "factory-cli-nix",
-        "rev": "c6341d30c973f1d9ee3033a7117017b249d84284",
+        "rev": "dcf11fbd5ca56b53c33c10543f36c5ec01866e55",
         "type": "github"
       },
       "original": {

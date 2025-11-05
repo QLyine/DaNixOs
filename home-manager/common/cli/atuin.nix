@@ -17,7 +17,7 @@
       keymap_mode = "vim-insert";
     };
 
-    daemon.enable = true;
+    daemon.enable = false;
 
     enableZshIntegration = true;
   };

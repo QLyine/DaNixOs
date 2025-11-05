@@ -8,12 +8,18 @@
   # Set the state version. It's important to set this and bump it periodically.
   # When you bump this, Home Manager will consider all of your managed files
   # and configurations as "new" and might overwrite existing ones if they differ.
-  home.stateVersion = "25.05"; # Set to your current Nixpkgs version or a preferred starting point
+  home.stateVersion = "25.11"; # Set to your current Nixpkgs version or a preferred starting point
 
   imports = [
+    inputs.factory-cli-nix.homeManagerModules.default
+    { services.factory-cli.enable = true; }
     ./common/cli
     ./common/neovim
   ];
+
+  # Create symlinks in ~/.factory/bin
+  # This is needed for the factory-cli-nix module to work.
+  home.file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
 
 
   # Git configuration
