@@ -138,21 +138,18 @@ in {
           return 1
         fi
 
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
         ${pkgs.sops}/bin/sops -d "${secretsDir}/$secret_file" | grep "^$key:" | cut -d':' -f2- | sed 's/^ *//' | tr -d '"'
       }
 
       # List all available secrets in a file
       list-secrets() {
         local secret_file="''${1:-${config.secrets.defaultSecretsFile}}"
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
         ${pkgs.sops}/bin/sops -d "${secretsDir}/$secret_file" | grep -v '^sops:' | grep -v '^#' | grep ':' | cut -d':' -f1 | sed 's/^ *//'
       }
 
       # Export all secrets from default file
       export-secrets() {
         local secret_file="''${1:-${config.secrets.defaultSecretsFile}}"
-        export SOPS_AGE_KEY_FILE="${secretsDir}/keys/age-key-host.txt"
 
         if [ -f "${secretsDir}/$secret_file" ]; then
           while IFS=':' read -r key value; do
