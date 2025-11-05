@@ -112,25 +112,25 @@
   ];
 
   programs.git = {
-    aliases = {
-      # 🔭 Clean, readable log (current branch)
-      l = "log --graph --abbrev-commit --date=human --pretty";
-      # 🌳 See everything (all branches)
-      lg = "log --graph --all --abbrev-commit --date=human --pretty";
-      # 🏷  Only the commits that have refs (tags/branch tips), super scannable
-      lt = "log --graph --abbrev-commit --simplify-by-decoration --decorate --date=human --pretty --tags";
-      # 🏷▶ Semantic-tag walk: traverse starting from tags in semver order (uses shell function alias)
-      lv = "!f(){ git log --graph --abbrev-commit --decorate --date=human --pretty $(git tag --sort=v:refname); }; f";
-      # 🆚 Compare two refs visually: git lrange v1.2.0 v1.3.0
-      lrange = "!f(){ git log --graph --abbrev-commit --decorate --date=human --pretty \"$1..$2\"; }; f";
-      # ⏭ Since last tag: what changed after the most recent tag?
-      lsince = "!f(){ t=$(git describe --tags --abbrev=0); git log --graph --abbrev-commit --decorate --date=human --pretty \"$t..HEAD\"; }; f";
-      # 🔎 Show tag objects themselves (messages/annotations), semver-sorted
-      tshow = "!f(){ for t in $(git tag --sort=v:refname); do echo; echo \"# $t\"; git show -s --pretty='%C(auto)%h %Cgreen%ad %Creset%C(yellow)%d%Creset %s' --date=human \"$t\"; done; }; f";
-      # 🧮 List tags semantically (no commits)
-      tagsv = "tag --list --sort=v:refname";
-    };
-    extraConfig = {
+    settings = {
+      alias = {
+        # 🔭 Clean, readable log (current branch)
+        l = "log --graph --abbrev-commit --date=human --pretty";
+        # 🌳 See everything (all branches)
+        lg = "log --graph --all --abbrev-commit --date=human --pretty";
+        # 🏷  Only the commits that have refs (tags/branch tips), super scannable
+        lt = "log --graph --abbrev-commit --simplify-by-decoration --decorate --date=human --pretty --tags";
+        # 🏷▶ Semantic-tag walk: traverse starting from tags in semver order (uses shell function alias)
+        lv = "!f(){ git log --graph --abbrev-commit --decorate --date=human --pretty $(git tag --sort=v:refname); }; f";
+        # 🆚 Compare two refs visually: git lrange v1.2.0 v1.3.0
+        lrange = "!f(){ git log --graph --abbrev-commit --decorate --date=human --pretty \"$1..$2\"; }; f";
+        # ⏭ Since last tag: what changed after the most recent tag?
+        lsince = "!f(){ t=$(git describe --tags --abbrev=0); git log --graph --abbrev-commit --decorate --date=human --pretty \"$t..HEAD\"; }; f";
+        # 🔎 Show tag objects themselves (messages/annotations), semver-sorted
+        tshow = "!f(){ for t in $(git tag --sort=v:refname); do echo; echo \"# $t\"; git show -s --pretty='%C(auto)%h %Cgreen%ad %Creset%C(yellow)%d%Creset %s' --date=human \"$t\"; done; }; f";
+        # 🧮 List tags semantically (no commits)
+        tagsv = "tag --list --sort=v:refname";
+      };
       pager = {
         log = "nvimpager";
       };

@@ -25,9 +25,9 @@
   # Git configuration
   programs.git = {
     enable = true;
-    userName = "Daniel Santos"; # Replace with your actual name
-    userEmail = "daniel.santos@sky.uk"; # Replace with your actual email
-    extraConfig = {
+    settings = {
+      user.name = "Daniel Santos";
+      user.email = "daniel.santos@sky.uk";
       init.defaultBranch = "master";
       core.editor = "nvim";
       url."git@github.com:NBCUDTC/spell".insteadOf = "https://github.com/NBCUDTC/spell";

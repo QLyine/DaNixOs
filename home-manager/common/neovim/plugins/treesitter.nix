@@ -86,55 +86,57 @@
     # Treesitter textobjects
     treesitter-textobjects = {
       enable = true;
-      select = {
-        enable = true;
-        lookahead = true;
-        keymaps = {
-          "aa" = "@parameter.outer";
-          "ia" = "@parameter.inner";
-          "af" = "@function.outer";
-          "if" = "@function.inner";
-          "ac" = "@class.outer";
-          "ic" = "@class.inner";
-          "ii" = "@conditional.inner";
-          "ai" = "@conditional.outer";
-          "il" = "@loop.inner";
-          "al" = "@loop.outer";
-          "at" = "@comment.outer";
+      settings = {
+        select = {
+          enable = true;
+          lookahead = true;
+          keymaps = {
+            "aa" = "@parameter.outer";
+            "ia" = "@parameter.inner";
+            "af" = "@function.outer";
+            "if" = "@function.inner";
+            "ac" = "@class.outer";
+            "ic" = "@class.inner";
+            "ii" = "@conditional.inner";
+            "ai" = "@conditional.outer";
+            "il" = "@loop.inner";
+            "al" = "@loop.outer";
+            "at" = "@comment.outer";
+          };
         };
-      };
-      move = {
-        enable = true;
-        gotoNextStart = {
-          "]m" = "@function.outer";
-          "]]" = "@class.outer";
-          "]o" = "@loop.*";
-          "]s" = "@scope";
-          "]z" = "@fold";
+        move = {
+          enable = true;
+          goto_next_start = {
+            "]m" = "@function.outer";
+            "]]" = "@class.outer";
+            "]o" = "@loop.*";
+            "]s" = "@scope";
+            "]z" = "@fold";
+          };
+          goto_next_end = {
+            "]M" = "@function.outer";
+            "][" = "@class.outer";
+          };
+          goto_previous_start = {
+            "[m" = "@function.outer";
+            "[[" = "@class.outer";
+            "[o" = "@loop.*";
+            "[s" = "@scope";
+            "[z" = "@fold";
+          };
+          goto_previous_end = {
+            "[M" = "@function.outer";
+            "[]" = "@class.outer";
+          };
         };
-        gotoNextEnd = {
-          "]M" = "@function.outer";
-          "][" = "@class.outer";
-        };
-        gotoPreviousStart = {
-          "[m" = "@function.outer";
-          "[[" = "@class.outer";
-          "[o" = "@loop.*";
-          "[s" = "@scope";
-          "[z" = "@fold";
-        };
-        gotoPreviousEnd = {
-          "[M" = "@function.outer";
-          "[]" = "@class.outer";
-        };
-      };
-      swap = {
-        enable = true;
-        swapNext = {
-          "<leader>a" = "@parameter.inner";
-        };
-        swapPrevious = {
-          "<leader>A" = "@parameter.inner";
+        swap = {
+          enable = true;
+          swap_next = {
+            "<leader>a" = "@parameter.inner";
+          };
+          swap_previous = {
+            "<leader>A" = "@parameter.inner";
+          };
         };
       };
     };
@@ -166,27 +168,29 @@
     # Treesitter refactor
     treesitter-refactor = {
       enable = true;
-      highlightDefinitions = {
-        enable = true;
-        clearOnCursorMove = false;
-      };
-      highlightCurrentScope = {
-        enable = true;
-      };
-      smartRename = {
-        enable = true;
-        keymaps = {
-          smartRename = "grr";
+      settings = {
+        highlight_definitions = {
+          enable = true;
+          clear_on_cursor_move = false;
         };
-      };
-      navigation = {
-        enable = true;
-        keymaps = {
-          gotoDefinition = "gnd";
-          listDefinitions = "gnD";
-          listDefinitionsToc = "gO";
-          gotoNextUsage = "<a-*>";
-          gotoPreviousUsage = "<a-#>";
+        highlight_current_scope = {
+          enable = true;
+        };
+        smart_rename = {
+          enable = true;
+          keymaps = {
+            smart_rename = "grr";
+          };
+        };
+        navigation = {
+          enable = true;
+          keymaps = {
+            goto_definition = "gnd";
+            list_definitions = "gnD";
+            list_definitions_toc = "gO";
+            goto_next_usage = "<a-*>";
+            goto_previous_usage = "<a-#>";
+          };
         };
       };
     };

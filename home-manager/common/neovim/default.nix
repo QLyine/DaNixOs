@@ -41,6 +41,7 @@
     enable = true;
 
     plugins = {
+      web-devicons.enable = true;
       which-key = {
         enable = true;
       };
