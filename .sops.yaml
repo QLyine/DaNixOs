@@ -5,8 +5,9 @@
 # Both keys can decrypt secrets - original user key and new host key
 x-age-keys: &age-keys
   age:
-    - age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey  # Original user key
-    - age1qyjzdl6m5w7hvq55rghwzydvuckuc0gjwc0u339dc73p0jztqytqk78tsv  # Host key
+    - age16pa9tevkpr7xu4jmlqq6mykrxds3y8rfcqy6u2dgwuas2jztl32qrqqpey # Original user key
+    - age1qyjzdl6m5w7hvq55rghwzydvuckuc0gjwc0u339dc73p0jztqytqk78tsv # sky-laptop
+    - age183ys2d84zqp5dq5hc56nehgwwma79nnz09948t5cf5470yu8wg8scgmr75 # obelix host
 
 creation_rules:
   # Rule for all YAML files in secrets directory
@@ -24,3 +25,4 @@ creation_rules:
   # You can easily add new file types or additional rules:
   # - path_regex: secrets/.*\.txt$
   #   <<: *age-keys
+
