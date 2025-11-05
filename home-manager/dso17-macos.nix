@@ -17,6 +17,10 @@
     ./common/neovim
   ];
 
+  # Create symlinks in ~/.factory/bin
+  # This is needed for the factory-cli-nix module to work.
+  home.file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
+
 
   # Git configuration
   programs.git = {
