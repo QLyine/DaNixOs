@@ -53,7 +53,6 @@
       sessionVariables = {
         EDITOR = "nvim";
         TERM = "xterm-256color";
-        SOPS_AGE_KEY_FILE = "$HOME/.config/sops/age/keys.txt";
       };
       zplug = {
         enable = true;
@@ -111,6 +110,10 @@
     "$HOME/go/bin"
     "$HOME/.krew/bin"
   ];
+
+  home.sessionVariables = {
+    SOPS_AGE_KEY_FILE = "$HOME/.config/sops/age/keys.txt";
+  };
 
   programs.git = {
     settings = {

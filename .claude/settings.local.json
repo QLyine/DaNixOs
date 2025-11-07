@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(age-keygen:*)",
+      "Bash(cat:*)",
+      "Bash(SOPS_AGE_KEY_FILE=secrets/keys/age-key-host.txt sops --check --decrypt:*)",
+      "Bash(SOPS_AGE_KEY_FILE=secrets/keys/age-key-host.txt ./bin/secrets-helper check:*)",
+      "Bash(./bin/secrets-helper:*)",
+      "Bash(SOPS_AGE_KEY_FILE=secrets/keys/age-key-host.txt sops:*)",
+      "Bash(git add:*)",
+      "Read(//Users/dso17/.config/**)",
+      "Bash(echo:*)",
+      "WebSearch",
+      "Read(//nix/store/**)",
+      "Bash(chmod:*)",
+      "Bash(sops:*)",
+      "Bash(SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt ./bin/secrets-helper view:*)",
+      "Bash(nix-instantiate:*)",
+      "Bash(home-manager build:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
