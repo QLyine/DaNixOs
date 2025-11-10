@@ -55,11 +55,19 @@
     };
 
     # Define secrets (will be handled by the claude.nix module)
-    secrets = {};
+    secrets = { };
   };
 
   home.packages = with pkgs; [
     home-manager
+    jfrog-cli
+    # Specific shell scripts to this user
+    (writeShellScriptBin "jfrog-cli-login" ''
+      jf login
+      export ARTIFACTSTORE_URL=https://artifactory.tools.gspcloud.com
+      export ARTIFACTSTORE_USER=$(jq '.servers[] | select(.serverId == "artifactstore").user' -r ~/.jfrog/jfrog-cli.conf.v6)
+      export ARTIFACTSTORE_TOKEN=$(jq '.servers[] | select(.serverId == "artifactstore").accessToken' -r ~/.jfrog/jfrog-cli.conf.v6)
+    '')
   ];
 }
 
