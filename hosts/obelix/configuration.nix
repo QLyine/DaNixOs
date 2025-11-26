@@ -151,6 +151,7 @@
     kdiff3
     kdePackages.isoimagewriter
     kdePackages.partitionmanager
+    kdePackages.qtstyleplugin-kvantum
     # Optional Packages
     wayland-utils
     wl-clipboard

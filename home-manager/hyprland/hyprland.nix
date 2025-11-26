@@ -17,6 +17,7 @@
         ",preferred,auto,1" # Fallback for other monitors
       ];
       exec-once = [
+        "ibus-daemon -drx"  # Input method daemon for dead keys support
         "waybar"
         "hyprpaper"
         # "eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)"  # Commented out - using system service

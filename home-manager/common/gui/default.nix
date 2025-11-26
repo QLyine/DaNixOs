@@ -5,6 +5,10 @@
   home.sessionVariables = {
     GDK_SCALE = "1";
     GDK_DPI_SCALE = "1.2"; # Slight boost in scale
+    # Fix dead keys (~ `) for GTK applications on Wayland
+    GTK_IM_MODULE = "ibus";
+    QT_IM_MODULE = "ibus";
+    XMODIFIERS = "@im=ibus";
   };
 
   home.packages = with pkgs; [
@@ -18,6 +22,7 @@
     pkgsStable.plex-desktop
     gscreenshot
     pkgs.gnome-screenshot
+    ibus  # Input method for dead keys support
   ];
 
   home.pointerCursor = {
