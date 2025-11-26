@@ -12,6 +12,7 @@ in
     username = "qlyine";
     homeDirectory = "/home/qlyine";
     stateVersion = "24.11";
+    enableNixpkgsReleaseCheck = false;
 
     packages = with pkgs; [
       bitwarden-cli
@@ -51,8 +52,12 @@ in
 
   programs.git = {
     enable = true;
-    userName = "qlyine";
-    userEmail = "dffsantos@proton.me";
+    settings = {
+      user = {
+        name = "qlyine";
+        email = "dffsantos@proton.me";
+      };
+    };
   };
 
   programs.password-store.enable = true;
@@ -60,7 +65,6 @@ in
 
   programs.keychain = {
     enable = true;
-    agents = [ "gpg" "ssh" ];
     enableZshIntegration = true;
     enableBashIntegration = true;
     keys = [ "id_ed25519" ];
