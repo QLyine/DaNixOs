@@ -1,77 +1,87 @@
 { config, pkgs, system, inputs, hostname, lib, ... }:
 
+let
+  isDesktop = hostname == "obelix";
+in
 {
+  # ==========================================================================
+  # Home Manager Core Settings
+  # ==========================================================================
+
+  home = {
+    username = "qlyine";
+    homeDirectory = "/home/qlyine";
+    stateVersion = "24.11";
+
+    packages = with pkgs; [
+      bitwarden-cli
+      ripgrep
+    ];
+
+    # Factory CLI requires ripgrep symlink
+    file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
+  };
+
+  # ==========================================================================
+  # Module Imports
+  # ==========================================================================
+
   imports = [
     inputs.factory-cli-nix.homeManagerModules.default
     { services.factory-cli.enable = true; }
     ./common/neovim
     ./common/cli
-  ] ++ (if hostname == "obelix" then [
+  ] ++ lib.optionals isDesktop [
     ./hyprland
     ./common/gui
-  ] else [ ]);
-
-  home.username = "qlyine";
-  home.homeDirectory = "/home/qlyine";
-
-  programs = {
-    zsh = {
-      enable = true;
-    };
-    zsh.oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "git"
-        "sudo"
-      ];
-      theme = "robbyrussell";
-    };
-    git = {
-      enable = true;
-      settings = {
-        user.name = "qlyine";
-        user.email = "dffsantos@proton.me";
-      };
-    };
-    password-store = {
-      enable = true;
-    };
-    gpg = {
-      enable = true;
-    };
-    keychain = {
-      enable = true;
-      agents = [ "gpg" "ssh" ];
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-      keys = [ "id_ed25519" ];
-      extraFlags = [ "--quiet" ];
-    };
-  };
-
-  home.packages = with pkgs; [
-    bitwarden-cli
-    ripgrep
   ];
 
-  # Create symlinks in ~/.factory/bin
-  home.file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
+  # ==========================================================================
+  # Programs Configuration
+  # ==========================================================================
 
-  services = {
+  programs.zsh = {
+    enable = true;
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "sudo" ];
+      theme = "robbyrussell";
+    };
   };
+
+  programs.git = {
+    enable = true;
+    userName = "qlyine";
+    userEmail = "dffsantos@proton.me";
+  };
+
+  programs.password-store.enable = true;
+  programs.gpg.enable = true;
+
+  programs.keychain = {
+    enable = true;
+    agents = [ "gpg" "ssh" ];
+    enableZshIntegration = true;
+    enableBashIntegration = true;
+    keys = [ "id_ed25519" ];
+    extraFlags = [ "--quiet" ];
+  };
+
+  # ==========================================================================
+  # Services Configuration
+  # ==========================================================================
 
   services.podman = lib.mkIf (config.virtualisation.podman.enable or false) {
     settings.policy = {
       default = [{ type = "insecureAcceptAnything"; }];
-      transports = {
-        "docker-daemon" = {
-          "" = [{ type = "insecureAcceptAnything"; }];
-        };
-      };
+      transports."docker-daemon"."" = [{ type = "insecureAcceptAnything"; }];
     };
   };
 
-  # SOPS-nix configuration
+  # ==========================================================================
+  # Secrets Management (SOPS)
+  # ==========================================================================
+
   sops = {
     defaultSopsFile = ../secrets/user/secrets.d/api-keys.yaml;
     defaultSopsFormat = "yaml";
@@ -79,11 +89,6 @@
       keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
       generateKey = false;
     };
-
-    # Define secrets (will be handled by individual modules)
-    secrets = {};
+    secrets = { };
   };
-
-  home.stateVersion = "24.11";
 }
-

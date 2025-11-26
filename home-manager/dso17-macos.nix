@@ -1,14 +1,46 @@
 { pkgs, lib, config, username, inputs, ... }:
 
-{
-  # Home Manager configuration for macOS user dso17 (standalone)
-  home.username = username;
-  home.homeDirectory = "/Users/${username}";
+let
+  # Work-specific private Go modules
+  goPrivateModules = "github.com/NBCUDTC/*,github.com/sky-uk/*,github.com-nbcudtc/*,github.com/nbcudtc/*";
 
-  # Set the state version. It's important to set this and bump it periodically.
-  # When you bump this, Home Manager will consider all of your managed files
-  # and configurations as "new" and might overwrite existing ones if they differ.
-  home.stateVersion = "25.11"; # Set to your current Nixpkgs version or a preferred starting point
+  # Custom shell scripts
+  jfrogLoginScript = pkgs.writeShellScriptBin "jfrog-cli-login" ''
+    jf login
+    export ARTIFACTSTORE_URL=https://artifactory.tools.gspcloud.com
+    export ARTIFACTSTORE_USER=$(jq '.servers[] | select(.serverId == "artifactstore").user' -r ~/.jfrog/jfrog-cli.conf.v6)
+    export ARTIFACTSTORE_TOKEN=$(jq '.servers[] | select(.serverId == "artifactstore").accessToken' -r ~/.jfrog/jfrog-cli.conf.v6)
+  '';
+in
+{
+  # ==========================================================================
+  # Home Manager Core Settings
+  # ==========================================================================
+
+  home = {
+    username = username;
+    homeDirectory = "/Users/${username}";
+    stateVersion = "25.11";
+
+    sessionVariables = {
+      EDITOR = "nvim";
+      PAGER = "less";
+      GOPRIVATE = goPrivateModules;
+    };
+
+    packages = with pkgs; [
+      home-manager
+      jfrog-cli
+      jfrogLoginScript
+    ];
+
+    # Factory CLI requires ripgrep symlink
+    file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
+  };
+
+  # ==========================================================================
+  # Module Imports
+  # ==========================================================================
 
   imports = [
     inputs.factory-cli-nix.homeManagerModules.default
@@ -17,35 +49,30 @@
     ./common/neovim
   ];
 
-  # Create symlinks in ~/.factory/bin
-  # This is needed for the factory-cli-nix module to work.
-  home.file.".factory/bin/rg".source = "${pkgs.ripgrep}/bin/rg";
+  # ==========================================================================
+  # Programs Configuration
+  # ==========================================================================
 
-
-  # Git configuration
   programs.git = {
     enable = true;
-    settings = {
-      user.name = "Daniel Santos";
-      user.email = "daniel.santos@sky.uk";
+    userName = "Daniel Santos";
+    userEmail = "daniel.santos@sky.uk";
+    extraConfig = {
       init.defaultBranch = "master";
       core.editor = "nvim";
       url."git@github.com:NBCUDTC/spell".insteadOf = "https://github.com/NBCUDTC/spell";
     };
   };
 
-  # Set environment variables
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    PAGER = "less";
-    GOPRIVATE = "github.com/NBCUDTC/*,github.com/sky-uk/*,github.com-nbcudtc/*,github.com/nbcudtc/*";
+  programs.zsh = {
+    sessionVariables.GOPRIVATE = goPrivateModules;
+    shellAliases.augie = "npx @augmentcode/auggie";
   };
 
-  programs.zsh.sessionVariables = {
-    GOPRIVATE = "github.com/NBCUDTC/*,github.com/sky-uk/*,github.com-nbcudtc/*,github.com/nbcudtc/*";
-  };
+  # ==========================================================================
+  # Secrets Management (SOPS)
+  # ==========================================================================
 
-  # SOPS-nix configuration
   sops = {
     defaultSopsFile = ../secrets/user/secrets.d/claude.yaml;
     defaultSopsFormat = "yaml";
@@ -53,21 +80,6 @@
       keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
       generateKey = false;
     };
-
-    # Define secrets (will be handled by the claude.nix module)
     secrets = { };
   };
-
-  home.packages = with pkgs; [
-    home-manager
-    jfrog-cli
-    # Specific shell scripts to this user
-    (writeShellScriptBin "jfrog-cli-login" ''
-      jf login
-      export ARTIFACTSTORE_URL=https://artifactory.tools.gspcloud.com
-      export ARTIFACTSTORE_USER=$(jq '.servers[] | select(.serverId == "artifactstore").user' -r ~/.jfrog/jfrog-cli.conf.v6)
-      export ARTIFACTSTORE_TOKEN=$(jq '.servers[] | select(.serverId == "artifactstore").accessToken' -r ~/.jfrog/jfrog-cli.conf.v6)
-    '')
-  ];
 }
-
