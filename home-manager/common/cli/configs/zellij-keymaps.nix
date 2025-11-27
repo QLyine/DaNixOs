@@ -105,8 +105,8 @@ mkAllKeybinds {
     "x" = { "CloseFocus; SwitchToMode" = "Normal"; };
     "z" = { "ToggleFocusFullscreen; SwitchToMode" = "Normal"; };
     "f" = { "TogglePaneEmbedOrFloating; SwitchToMode" = "Normal"; };
-    # Create stacked pane
-    "s" = { NewPane = "Stacked"; SwitchToMode = "Normal"; };
+    # Create new pane (down direction as fallback - "Stacked" requires Zellij 0.43.0+)
+    "s" = { NewPane = "Down"; SwitchToMode = "Normal"; };
   };
 
   "shared_except \"tmux\" \"locked\"" = {
