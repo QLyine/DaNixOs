@@ -1,6 +1,6 @@
 {
   programs.nixvim.plugins.lualine = {
-    enable = true;
+    enable = false;  # Temporarily disabled due to hash mismatch
     
     settings = {
       options = {

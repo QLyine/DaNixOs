@@ -54,11 +54,12 @@
   # Enable the GNOME Desktop Environment.
   services.desktopManager = {
     gnome.enable = false;
-    cosmic.enable = true;
+    plasma6.enable = true;
   };
   services.displayManager = {
     gdm.enable = false;
-    cosmic-greeter.enable = true;
+    sddm.enable = true;
+    sddm.wayland.enable = true;
   };
 
   # Configure keymap in X11
@@ -139,21 +140,27 @@
     inetutils
     nmap
     spotify
+    # KDE Packages
+    kdePackages.kcalc
+    kdePackages.kcharselect
+    kdePackages.kclock
+    kdePackages.kcolorchooser
+    kdePackages.kolourpaint
+    kdePackages.ksystemlog
+    kdePackages.sddm-kcm
+    kdiff3
+    kdePackages.isoimagewriter
+    kdePackages.partitionmanager
+    kdePackages.qtstyleplugin-kvantum
+    # Optional Packages
+    wayland-utils
+    wl-clipboard
   ];
 
   #services.gnome.gnome-keyring.enable = true;
 
   ## Ensure PAM integration for unlocking keyring on login
-  #security.pam.services.gdm.enableGnomeKeyring = true;
-  #security.pam.services.cosmic-greeter.enableGnomeKeyring = true;
-  #security.pam.services.login.enableGnomeKeyring = true;
-
   programs.mtr.enable = true;
-  #programs.gnupg.agent = {
-  #  enable = true;
-  #  enableSSHSupport = true;
-  #  pinentryPackage = pkgs.pinentry-gnome3;
-  #};
 
   # List services that you want to enable:
 
@@ -166,7 +173,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "26.05";
 
   hardware.graphics.enable = true;
   hardware.nvidia.modesetting.enable = true;
@@ -198,8 +205,7 @@
 
       # Extended Unicode coverage
       noto-fonts-cjk-sans # Chinese, Japanese, Korean
-      noto-fonts-emoji # Emoji
-      noto-fonts-extra # Additional Unicode blocks
+      noto-fonts-color-emoji # Emoji
       unifont # Covers nearly all of Unicode (bitmap fallback)
 
       # Terminal and developer fonts
