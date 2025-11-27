@@ -93,9 +93,20 @@ mkAllKeybinds {
   pane = {
     "Esc" = { SwitchToMode = "Normal"; };
     "Ctrl c" = { SwitchToMode = "Normal"; };
+    # Resize increase/decrease (smart resizing)
     "i" = { Resize = "Increase"; };
     "d" = { Resize = "Decrease"; };
+    # Directional resize
+    "h" = { Resize = "Left"; };
+    "j" = { Resize = "Down"; };
+    "k" = { Resize = "Up"; };
+    "l" = { Resize = "Right"; };
+    # Pane management
     "x" = { "CloseFocus; SwitchToMode" = "Normal"; };
+    "z" = { "ToggleFocusFullscreen; SwitchToMode" = "Normal"; };
+    "f" = { "TogglePaneEmbedOrFloating; SwitchToMode" = "Normal"; };
+    # Create stacked pane
+    "s" = { NewPane = "Stacked"; SwitchToMode = "Normal"; };
   };
 
   "shared_except \"tmux\" \"locked\"" = {
